@@ -1,0 +1,61 @@
+.webhook__empty {
+	margin-top: 150px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&__content {
+		margin-top: 32px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		h3 {
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 23px;
+			text-align: center;
+			margin-bottom: 8px;
+		}
+
+		p {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 20px;
+			text-align: center;
+			color: #98a2b3;
+		}
+	}
+
+	.webhook-btn {
+		border-radius: 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		outline: 0px;
+		border: none;
+		font-size: 1.6rem;
+		font-weight: normal;
+		cursor: pointer;
+		font-family: "GT Walsheim Pro";
+		text-decoration: none;
+		height: 44px;
+		color: #fff !important;
+		width: 200px;
+		background-color: $primary-yellow;
+		border-radius: 8px;
+		transition: all 0.2s ease;
+		margin-top: 30px;
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
+		}
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}

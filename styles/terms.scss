@@ -1,0 +1,156 @@
+.terms {
+	max-width: 1240px;
+	margin: 0 auto;
+	margin-bottom: 50px;
+
+	&-nav {
+		max-width: 170px;
+		position: -webkit-sticky;
+		position: sticky;
+		z-index: 1;
+		top: 210px;
+		left: 12px;
+		list-style-type: none;
+
+		p {
+			font-weight: 500;
+			color: $primary-dark;
+			font-size: 16px;
+		}
+
+		&__item {
+			margin-top: 10px;
+			cursor: pointer;
+			font-weight: 400;
+			font-size: 14px;
+		}
+
+		&__item.active {
+			margin-top: 10px;
+			cursor: pointer;
+			color: $primary-yellow;
+			font-weight: 500;
+		}
+	}
+
+	&-body {
+		max-width: 555px;
+		margin-top: -40px;
+		margin-left: 300px;
+
+		.policies {
+			margin-bottom: 20px;
+			h1 {
+				font-size: 3.5rem;
+				font-weight: 500;
+				color: $primary-dark;
+			}
+
+			p {
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+				margin-top: 8px;
+				color: $secondary-grey;
+				line-height: 25px;
+				transition: all 0.5s ease-in;
+			}
+		}
+
+		.terms__section {
+			h1 {
+				font-size: 2rem;
+				font-weight: 500;
+				color: $primary-dark;
+				margin-bottom: 20px;
+			}
+			.subsection {
+				display: flex;
+				margin-bottom: 30px;
+
+				p {
+					font-style: normal;
+					font-weight: normal;
+					font-size: 18px;
+					color: $secondary-grey;
+					line-height: 25px;
+					transition: all 0.5s ease-in;
+				}
+
+				span {
+					font-weight: 500;
+					color: $primary-dark;
+					margin-right: 30px;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.terms {
+		max-width: 1240px;
+		margin: 0 auto;
+		padding: 0 5%;
+		display: flex;
+		justify-content: center;
+
+		&-nav {
+			display: none;
+		}
+
+		&-body {
+			max-width: 555px;
+			margin-top: 3rem;
+			margin-left: 0px;
+
+			.policies {
+				margin-bottom: 20px;
+				h1 {
+					font-size: 2.5rem;
+					width: 100%;
+					font-weight: 500;
+					color: $primary-dark;
+				}
+
+				p {
+					font-style: normal;
+					font-weight: normal;
+					font-size: 18px;
+					margin-top: 8px;
+					color: $secondary-grey;
+					line-height: 25px;
+					transition: all 0.5s ease-in;
+				}
+			}
+
+			.terms__section {
+				h1 {
+					font-size: 1.5rem;
+					font-weight: 500;
+					color: $primary-dark;
+					margin-bottom: 20px;
+				}
+				.subsection {
+					display: flex;
+					margin-bottom: 30px;
+
+					p {
+						font-style: normal;
+						font-weight: normal;
+						font-size: 18px;
+						color: $secondary-grey;
+						line-height: 25px;
+						transition: all 0.5s ease-in;
+					}
+
+					span {
+						font-weight: 500;
+						color: $primary-dark;
+						margin-right: 30px;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,248 @@
+.dashboard-layout {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: row;
+	max-width: 100vw;
+
+	.aside {
+		height: 100vh;
+		min-width: 250px;
+		max-width: 250px;
+		display: flex;
+		flex-direction: column;
+		padding: 33px 22px;
+		transition: all 0.3s ease;
+		position: relative;
+		z-index: 10;
+		overflow: hidden;
+	}
+
+	.aside-menu {
+		overflow: scroll;
+		margin-top: 60px;
+
+		.aside-menu-links {
+			display: grid;
+			grid-template-columns: 1fr;
+			row-gap: 21px;
+		}
+
+		.aside-menu-link {
+			display: flex;
+			align-items: center;
+			padding-left: 18px;
+			transition: background 0.3s ease-in;
+			cursor: pointer;
+
+			.menu--text {
+				margin-left: 12px;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 21px;
+				color: #626e8b;
+			}
+		}
+
+		.settings-menu {
+			position: absolute;
+			bottom: 30px;
+		}
+
+		.aside-menu-link.active {
+			width: 206px;
+			height: 48px;
+			display: flex;
+			padding-left: 18px;
+			align-items: center !important;
+			background: #ecc337;
+			box-shadow: 0px 18px 88px rgba(24, 39, 75, 0.04),
+				0px 8px 28px rgba(24, 39, 75, 0.1);
+			border-radius: 10px;
+
+			.menu--text {
+				margin-left: 12px;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 21px;
+				color: #fff;
+			}
+		}
+	}
+
+	.main-section {
+		width: 100%;
+		height: 100vh;
+		overflow-y: scroll;
+		// position: relative;
+		background-color: #fafafa;
+
+		.dashboard-header {
+			height: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 38px;
+			// position: fixed;
+			// top: 0;
+			// padding-right: 200px;
+			background: #fff;
+			width: 100%;
+
+			.admin-deets {
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+
+				.avatar-admin {
+					margin-right: 12px;
+				}
+
+				.header-arrow {
+					margin-left: 5px;
+				}
+
+				.company-deets {
+					p {
+						font-weight: 500;
+						font-size: 16px;
+						line-height: 20px;
+						color: #1e1d24;
+						margin-bottom: 3px;
+					}
+
+					small {
+						font-weight: 400;
+						font-size: 14px;
+						line-height: 18px;
+						color: #787486;
+					}
+				}
+			}
+
+			.request-access-btn {
+				background: #ffffff;
+				width: 147px;
+				height: 40px;
+				outline: none;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid #d0d5dd;
+				font-size: 14px;
+				font-weight: 500;
+				box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+				border-radius: 8px;
+				cursor: pointer;
+			}
+
+			.logout-div {
+				width: 112px;
+				height: 40px;
+				background: #ffffff;
+				box-shadow: 0px 20px 40px rgba(5, 32, 58, 0.15);
+				border-radius: 8px;
+				position: absolute;
+				top: 90px;
+				right: 30px;
+				display: flex;
+				align-items: center;
+				padding-left: 11px;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 28px;
+				color: #d24e3a;
+			}
+		}
+
+		.dashboard-title {
+			font-weight: 500;
+			font-size: 27px;
+			line-height: 38px;
+			color: #101828;
+			margin-top: 30px;
+		}
+
+		&__body {
+			width: 100%;
+			height: 100vh;
+			overflow-y: scroll;
+			padding: 0px 30px 30px 30px;
+		}
+	}
+}
+
+.pagination-arrow {
+	// background-color: #f9edc3;
+	width: 35px;
+	height: 35px;
+	display: flex;
+	color: #141416;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	margin: 0 4px;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover {
+		background-color: #f9edc3;
+		color: #141416;
+	}
+	i {
+		font-size: 20px;
+	}
+}
+
+.pagination-numbers {
+	// background-color: #f9edc3;
+	width: 35px;
+	height: 35px;
+	color: #141416;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	margin-top: -10px;
+	margin: 0 4px;
+	cursor: pointer;
+	text-decoration: none;
+
+	&:hover {
+		background-color: #f9edc3;
+		color: #141416;
+	}
+}
+
+.pagination-dots {
+	font-size: 18px;
+	font-weight: 700;
+	color: #141416;
+	margin: 2px 6px;
+}
+
+.pagination-active {
+	background-color: #ededed;
+	color: #141416;
+}
+
+.pagination-standalone {
+	font-size: 16px;
+	font-weight: 500;
+	margin-right: 5px;
+}
+
+.react-bootstrap-table-pagination-total {
+	font-size: 14px;
+}
+
+.select {
+	outline: none;
+	height: 30px;
+	border-radius: 6px;
+	margin: 0 5px;
+}
+
+.custom-card {
+	box-shadow: 2px 6px 30px rgba(165, 173, 188, 0.06);
+	border-radius: 10px;
+	background-color: #fff;
+}

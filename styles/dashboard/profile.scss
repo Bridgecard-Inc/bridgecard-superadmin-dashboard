@@ -1,0 +1,64 @@
+.profile-form-area {
+	width: 444px;
+	margin-top: 43px;
+}
+
+.profile-heading {
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 24px;
+	color: #2c2c2c;
+	margin-top: 30px;
+}
+
+.profile-info {
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 16px;
+	color: #999ca0;
+	margin-top: 8px;
+	text-align: center;
+}
+
+.profile-avatar {
+	margin-top: 30px;
+}
+
+.profile-cta {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+
+	.edit-cta {
+		background: #ffffff;
+		width: 147px;
+		height: 40px;
+		outline: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid #d0d5dd;
+		font-size: 14px;
+		font-weight: 500;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+		cursor: pointer;
+	}
+
+	.update-cta {
+		background: #ecc337;
+		width: 147px;
+		height: 40px;
+		outline: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 0px;
+		font-size: 14px;
+		font-weight: 500;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+		color: #fff;
+		cursor: pointer;
+	}
+}

@@ -1,0 +1,221 @@
+%button {
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	outline: 0px;
+	border: none;
+	font-size: 1.6rem;
+	font-weight: normal;
+	cursor: pointer;
+	font-family: "GT Walsheim Pro";
+	text-decoration: none;
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.nav-btn {
+	@extend %button;
+	height: 44px;
+	color: #fff !important;
+	width: 90px;
+	background-color: $primary-yellow;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.get-started {
+	@extend %button;
+	height: 60px;
+	color: #fff;
+	width: 155px;
+	background-color: $primary-yellow;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+}
+
+.demo-btn {
+	@extend %button;
+	width: 143px;
+	margin-right: 12px;
+	height: 60px;
+	background: #ffffff;
+	border: 1px solid #d0d5dd;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+	transition: all 0.2s ease;
+
+	p {
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 28px;
+		margin-left: 14px;
+		color: #344054;
+	}
+}
+
+.pricing-cta-solid {
+	@extend %button;
+	width: 296px;
+	height: 48px;
+	background: #ecc337;
+	color: #fff;
+}
+
+.pricing-cta-outline {
+	@extend %button;
+	width: 296px;
+	height: 48px;
+	background: #ffffff;
+	border: 1px solid #d0d5dd;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+	margin-top: 12px;
+}
+
+.docu-btn {
+	@extend %button;
+	width: 207px;
+	height: 48px;
+	background: #ecc337;
+	color: #fff;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+	margin-top: 40px;
+}
+
+.letter-input {
+	outline: 0;
+	display: flex;
+	align-items: center;
+	padding: 0 16px;
+	width: 360px;
+	height: 48px;
+	background: #ffffff;
+	border: 1px solid #d0d5dd;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+
+	&::placeholder {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+		color: #667085;
+	}
+}
+
+.subscribe {
+	@extend %button;
+	height: 48px;
+	color: #fff;
+	width: 111px;
+	background-color: $primary-yellow;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+}
+
+.delete-btn {
+	@extend %button;
+	height: 48px;
+	color: #fff;
+	padding: 0 30px;
+	background-color: #e84855;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 8px;
+}
+
+.cta-btn__light {
+	border-radius: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	outline: 0px;
+	border: none;
+	font-size: 18px;
+	font-weight: normal;
+	cursor: pointer;
+	font-family: "GT Walsheim Pro";
+	height: 64px;
+	width: 200px;
+	border: 1px solid #141416;
+	background-color: $white;
+	color: $primary-dark;
+	transition: all 0.2s ease;
+	font-size: 16px;
+}
+
+@media screen and (max-width: 650px) {
+	.letter-input {
+		outline: 0;
+		display: flex;
+		align-items: center;
+		padding: 0 16px;
+		width: 100%;
+		height: 48px;
+		font-family: "GT Walsheim Pro";
+		background: #ffffff;
+		border: 1px solid #d0d5dd;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+
+		&::placeholder {
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 24px;
+			color: #667085;
+		}
+	}
+
+	.subscribe {
+		height: 48px;
+		color: #fff;
+		margin-top: 25px;
+		width: 100%;
+		background-color: $primary-yellow;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+	}
+
+	.docu-btn {
+		width: 100%;
+		height: 48px;
+		background: #ecc337;
+		color: #fff;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+		margin-top: 40px;
+	}
+
+	.get-started {
+		height: 60px;
+		color: #fff;
+		width: 100%;
+		background-color: $primary-yellow;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+	}
+
+	.pricing-cta-solid {
+		width: 100%;
+		height: 48px;
+		background: #ecc337;
+		color: #fff;
+	}
+
+	.pricing-cta-outline {
+		width: 100%;
+		height: 48px;
+		background: #ffffff;
+		border: 1px solid #d0d5dd;
+		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+		margin-top: 12px;
+	}
+}

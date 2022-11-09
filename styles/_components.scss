@@ -1,0 +1,408 @@
+.auth-input-container {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 25px;
+
+	label {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+		color: #797979;
+	}
+
+	.fancy-label {
+		display: flex;
+		margin-bottom: 10px;
+		align-items: center;
+
+		p {
+			font-weight: 400;
+			font-size: 1.8rem;
+			line-height: 2.4rem;
+			color: #141416;
+			margin-right: 5px;
+		}
+	}
+
+	.auth-input {
+		display: flex;
+		align-items: center;
+		padding: 12px 20px;
+		width: 100%;
+		height: 62px;
+		border: 1px solid #ebebeb;
+		border-radius: 12px;
+		color: #141416;
+		outline: none;
+		font-size: 16px;
+		font-family: "GT Walsheim Pro";
+
+		&::placeholder {
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 24px;
+			color: #797979;
+			font-family: "GT Walsheim Pro";
+		}
+
+		&:focus {
+			border: 1px solid #ecc337;
+		}
+	}
+
+	.auth-password-input {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		height: 62px;
+		border: 1px solid #ebebeb;
+		border-radius: 12px;
+		padding: 0 20px;
+		background-color: white;
+
+		&:focus-within {
+			border: 1px solid #ecc337;
+		}
+
+		input {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+			border: 0px;
+			color: #141416;
+			outline: none;
+			font-size: 16px;
+			font-family: "GT Walsheim Pro";
+
+			&::placeholder {
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 24px;
+				color: #727273;
+				font-family: "GT Walsheim Pro";
+			}
+
+			&:disabled {
+				background-color: transparent;
+			}
+		}
+
+		.password-icon {
+			margin-left: 5px;
+			cursor: pointer;
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 24px;
+			text-decoration: underline;
+		}
+	}
+}
+
+.google-btn {
+	height: 56px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #d0d0d0;
+	border-radius: 24px;
+	background: #fff;
+	font-family: "GT Walsheim Pro";
+	cursor: pointer;
+
+	p {
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 24px;
+		margin-left: 10px;
+		color: #171725;
+	}
+}
+
+.payment-header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+	margin-bottom: 45px;
+
+	h3 {
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 32px;
+		text-align: center;
+		margin-top: 22px;
+		margin-bottom: 10px;
+	}
+
+	p {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+		max-width: 335px;
+		text-align: center;
+		color: #667085;
+	}
+}
+
+.auth-btn {
+	background: #ecc337;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 45px;
+	display: flex;
+	width: 100%;
+	height: 56px;
+	justify-content: center;
+	align-items: center;
+	outline: 0px;
+	border: none;
+	font-size: 18px;
+	color: #fff;
+	font-weight: normal;
+	margin-top: 69px;
+	cursor: pointer;
+	font-family: "GT Walsheim Pro";
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+}
+
+.modal-form-btn {
+	background: #ecc337;
+	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+	border-radius: 45px;
+	display: flex;
+	width: 100%;
+	height: 56px;
+	justify-content: center;
+	align-items: center;
+	outline: 0px;
+	border: none;
+	font-size: 18px;
+	color: #fff;
+	font-weight: normal;
+	cursor: pointer;
+	font-family: "GT Walsheim Pro";
+
+	margin-top: 10px;
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+}
+
+.big-heading {
+	font-weight: 500;
+	font-size: 40px;
+	line-height: 46px;
+	color: #000000;
+}
+
+.big-heading-d {
+	font-weight: 500;
+	font-size: 25px;
+	line-height: 29px;
+	color: #000000;
+}
+
+.small-p {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 17px;
+	line-height: 23px;
+	margin-top: 15px;
+	margin-bottom: 44px;
+	color: #434345;
+}
+
+.non-google-auth {
+	width: 100%;
+	margin-top: 40px;
+
+	form {
+		width: 100%;
+	}
+}
+
+.auth-switch {
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 34px;
+	text-align: center;
+	color: #000;
+	margin-top: 34px;
+
+	span {
+		cursor: pointer;
+		color: #ecc337;
+	}
+}
+
+.fancy-heading {
+	display: flex;
+	align-items: center;
+
+	h3 {
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 25px;
+		margin-left: 15px;
+	}
+}
+
+.grid-input {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 25px;
+	width: 100%;
+}
+
+.mode-card {
+	width: 100%;
+	min-height: 91px;
+	height: auto;
+	background: #ffffff;
+	box-shadow: 0px 14px 40px rgba(0, 0, 0, 0.05);
+	border-radius: 13px;
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	margin-bottom: 30px;
+
+	.mode-text {
+		margin-left: 15px;
+
+		h3 {
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 22px;
+			color: #000000;
+			margin-bottom: 12px;
+		}
+
+		p {
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 19px;
+			color: #434345;
+		}
+	}
+}
+
+.pill {
+	width: 64px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fdf9eb;
+	border-radius: 13px;
+	margin-left: 11px;
+	cursor: pointer;
+
+	small {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 17px;
+		color: #ecc337;
+	}
+}
+
+.password-validator {
+	display: grid;
+	grid-template-columns: 1fr;
+	width: 100%;
+	gap: 21px;
+	margin-top: 21px;
+	margin-bottom: 20px;
+
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		p {
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 24px;
+			color: #434345;
+			margin-right: 10px;
+		}
+	}
+}
+
+.error {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 41px;
+	text-align: center;
+	// margin-top: 6px;
+	color: #ed4c5c;
+}
+
+.error-m {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 41px;
+	color: #ed4c5c;
+}
+
+.congratulation {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.dashboard-card {
+	padding: 24px 20px 24px 24px;
+	background: #ffffff;
+	border: 1px solid #d1d1d1;
+	border-radius: 8px;
+}
+.toggle-wrap {
+	display: flex;
+	align-items: center;
+	p {
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 24px;
+		color: #000000;
+		margin-right: 20px;
+	}
+
+	.toggle {
+		width: 44px;
+		height: 24px;
+		background: #27ae60;
+		display: flex;
+		align-items: center;
+		border-radius: 12px;
+		padding: 0 2px;
+		margin-right: 20px;
+
+		&--switch {
+			width: 20px;
+			height: 22px;
+			border-radius: 50%;
+			background: #ffffff;
+		}
+	}
+
+	.start {
+		justify-content: flex-start;
+	}
+
+	.end {
+		justify-content: flex-end;
+	}
+
+	.off {
+		background: #d0d0d0;
+	}
+}
