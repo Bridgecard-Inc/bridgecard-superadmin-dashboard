@@ -38,23 +38,6 @@ export const AsideMenuLinks = () => {
 					<p className="menu--text">Dashboard</p>
 				</div>
 
-				<div
-					className={
-						asPath === "/dashboard/issued-cards"
-							? "aside-menu-link active"
-							: "aside-menu-link"
-					}
-					onClick={() => {
-						handleClick("issued-cards");
-					}}
-				>
-					{asPath === "/dashboard/issued-cards" ? (
-						<SVG src={"../../../media/svg/menu-icons/issued-cards-lte.svg"} />
-					) : (
-						<SVG src={"../../../media/svg/menu-icons/issued-cards.svg"} />
-					)}
-					<p className="menu--text">Issued cards</p>
-				</div>
 				{/*
 				<div className="aside-menu-link">
 					<SVG src={"../media/svg/menu-icons/balance.svg"} />
@@ -75,42 +58,7 @@ export const AsideMenuLinks = () => {
 					) : (
 						<SVG src={"../../../media/svg/notifications.svg"} />
 					)}
-					<p className="menu--text">Webhooks events</p>
-				</div>
-				<div
-					className={
-						asPath === "/dashboard/api-status"
-							? "aside-menu-link active"
-							: "aside-menu-link"
-					}
-					onClick={() => {
-						handleClick("api-status");
-					}}
-				>
-					{asPath === "/dashboard/api-status" ? (
-						<SVG src={"../../../media/svg/menu-icons/webhook-lte.svg"} />
-					) : (
-						<SVG src={"../../../media/svg/menu-icons/webhook.svg"} />
-					)}
-					<p className="menu--text">Api status</p>
-				</div>
-
-				<div
-					className={
-						asPath === "/dashboard/transaction-history"
-							? "aside-menu-link active"
-							: "aside-menu-link"
-					}
-					onClick={() => {
-						handleClick("transaction-history");
-					}}
-				>
-					{asPath === "/dashboard/transaction-history" ? (
-						<SVG src={"../../../media/svg/menu-icons/webhook-lte.svg"} />
-					) : (
-						<SVG src={"../../../media/svg/menu-icons/transaction.svg"} />
-					)}
-					<p className="menu--text">Transactions</p>
+					<p className="menu--text">Requests</p>
 				</div>
 
 				<div className="settings-menu">

@@ -3,7 +3,6 @@ import styles from "./WebhookModal.module.scss";
 import { motion } from "framer-motion";
 import SVG from "react-inlinesvg";
 import { useAuthContext } from "../../../../firebase/AuthContext";
-import { CodeBlock, atomOneLight } from "react-code-blocks";
 
 export const WebhookModal = () => {
 	const context = useAuthContext();
@@ -29,20 +28,7 @@ export const WebhookModal = () => {
 		},
 	};
 
-	const codeText = `
-      {
-        "amount":  ${webHookRow?.data?.data?.amount},
-        "card_id": ${webHookRow?.data?.data?.card_id},
-        "card_transaction_type":  ${webHookRow?.data?.data?.card_transaction_type},
-        "cardholder_id":  ${webHookRow?.data?.data?.cardholder_id},
-        "currency":  ${webHookRow?.data?.data?.currency},
-        "description":  ${webHookRow?.data?.data?.description},
-        "issuing_app_id":  ${webHookRow?.data?.data?.issuing_app_id},
-        "livemode":  ${webHookRow?.data?.data?.livemode},
-        "transaction_reference":  ${webHookRow?.data?.data?.transaction_reference},
-
-      }
-  `;
+	console.log(webHookRow);
 
 	return (
 		isWebhookModalVisible && (
@@ -54,7 +40,7 @@ export const WebhookModal = () => {
 					animate="visible"
 				>
 					<div className={styles.modalHeader}>
-						<h3>Webhook details</h3>
+						<h3>Request details</h3>
 						<div className={styles.cancel} onClick={closeModal}>
 							{" "}
 							<SVG src={"../media/svg/send/cancel.svg"} />
@@ -68,38 +54,139 @@ export const WebhookModal = () => {
 								<p>{webHookRow?.webhook_url}</p>
 							</div>
 							<div className={styles.deets}>
-								<h4>Response time</h4>
-								<p>{webHookRow?.response_time?.toFixed(2)} secs</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Status</h4>
-								{webHookRow.response_status_code === 200 ? (
-									<button className="status-btn success">Successful</button>
-								) : (
-									<button className="status-btn failed">Failed</button>
-								)}
+								<h4>Transaction Volume</h4>
+								<p>{webHookRow?.transaction_volume_in_local_currency} </p>
 							</div>
 						</div>
 
-						<div className={styles.modalData}>
-							<CodeBlock
-								text={codeText}
-								language={"javascript"}
-								codeBlock={true}
-								showLineNumbers={true}
-								wrapLines
-								wrapLongLines={true}
-								theme={atomOneLight}
-								customStyle={{
-									height: "340px",
-									overflowY: "scroll",
-									margin: "0px",
-									borderRadius: "0px",
-									fontSize: "15px",
-									textColor: "#000",
-									padding: "0px 10px",
-								}}
-							/>
+						<div className={styles.modalDeets}>
+							<h3>Office Details</h3>
+							<div className={styles.deets}>
+								<h4>Address</h4>
+								<p>{webHookRow?.kyc_information?.office_address?.address}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Country</h4>
+								<p>{webHookRow?.kyc_information?.office_address?.country}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>State</h4>
+								<p>{webHookRow?.kyc_information?.office_address?.state}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Postal code</h4>
+								<p>
+									{webHookRow?.kyc_information?.office_address?.postal_code}
+								</p>
+							</div>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Registered Details</h3>
+							<div className={styles.deets}>
+								<h4>Address</h4>
+								<p>
+									{webHookRow?.kyc_information?.registered_address?.address}
+								</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Country</h4>
+								<p>
+									{webHookRow?.kyc_information?.registered_address?.country}
+								</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>State</h4>
+								<p>{webHookRow?.kyc_information?.registered_address?.state}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Postal code</h4>
+								<p>
+									{webHookRow?.kyc_information?.registered_address?.postal_code}
+								</p>
+							</div>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Director Details</h3>
+							<div className={styles.deets}>
+								<h4>Address</h4>
+								<p>{webHookRow?.kyc_information?.director_address?.address}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Country</h4>
+								<p>{webHookRow?.kyc_information?.director_address?.country}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>State</h4>
+								<p>{webHookRow?.kyc_information?.director_address?.state}</p>
+							</div>
+							<div className={styles.deets}>
+								<h4>Postal code</h4>
+								<p>
+									{webHookRow?.kyc_information?.director_address?.postal_code}
+								</p>
+							</div>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Kyc Documents</h3>
+							<div className={styles.kycDeets}>
+								<h4>CAC registration document</h4>
+								{webHookRow?.kyc_information?.cac_regisration_document.includes(
+									".pdf?"
+								) ? (
+									<a
+										href={
+											webHookRow?.kyc_information?.cac_registration_document
+										}
+										target="_blank"
+										rel="noreferrer"
+									>
+										Cac registration document
+									</a>
+								) : (
+									<img
+										src={webHookRow?.kyc_information?.cac_regisration_document}
+										alt=""
+									/>
+								)}
+							</div>
+
+							<div className={styles.kycDeets}>
+								<h4>Utility bill</h4>
+								{webHookRow?.kyc_information?.utility_bill.includes(".pdf?") ? (
+									<a
+										href={webHookRow?.kyc_information?.utility_bill}
+										target="_blank"
+										rel="noreferrer"
+									>
+										Utility bill
+									</a>
+								) : (
+									<img src={webHookRow?.kyc_information?.utility_bill} alt="" />
+								)}
+							</div>
+
+							<div className={styles.kycDeets}>
+								<h4>Director Id</h4>
+								{webHookRow?.kyc_information?.director_id?.id_image.includes(
+									".pdf?"
+								) ? (
+									<a
+										href={webHookRow?.kyc_information?.director_id?.id_image}
+										target="_blank"
+										rel="noreferrer"
+									>
+										Director Id Image
+									</a>
+								) : (
+									<img
+										src={webHookRow?.kyc_information?.director_id?.id_image}
+										alt=""
+									/>
+								)}
+							</div>
 						</div>
 					</div>
 				</motion.div>

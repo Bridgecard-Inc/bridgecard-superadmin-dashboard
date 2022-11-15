@@ -7,7 +7,7 @@ export const AuthRoute = ({ children }) => {
 	const { authenticated } = useSelector(state => state.app);
 	useEffect(() => {
 		if (!authenticated) {
-			router.push("/login");
+			router.push("/");
 		}
 		return;
 	}, [authenticated, router]);

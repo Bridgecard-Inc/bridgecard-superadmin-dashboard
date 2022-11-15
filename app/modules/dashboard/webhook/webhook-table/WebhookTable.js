@@ -10,6 +10,7 @@ import {
 	NoRecordsFoundMessage,
 	PleaseWaitMessage,
 } from "../../../../../_helpers/TablePaginationHelpers";
+import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
 import { Pagination } from "../../../../../_helpers/pagination/index";
 import { useTableUIContext } from "../../../../../_helpers/TableUIContext";
 import { useSelector } from "react-redux";
@@ -48,16 +49,19 @@ export default function WebhookTable({ days }) {
 		return (
 			<Box className="d-flex align-items-center">
 				<Box ml="0">
-					<Text
-						as="p"
-						color={row.response_status_code === 200 ? "green" : "red"}
+					<Box
+						className="pointer"
+						cursor="pointer"
+						color="#3374FF"
 						fontSize="14px"
 						fontWeight="300"
 						m="0"
 						fontFamily="GT Walsheim Pro"
 					>
-						{row.response_status_code}
-					</Text>
+						<a href={row.webhook_url} target="_blank" rel="noreferrer">
+							{row.webhook_url}
+						</a>
+					</Box>
 				</Box>
 			</Box>
 		);
@@ -105,44 +109,18 @@ export default function WebhookTable({ days }) {
 
 	const columns = [
 		{
-			dataField: "time_sent",
-			text: "Date",
-			formatter: DateColumnFormatter,
+			dataField: "transaction_volume_in_local_currency",
+			text: "Transaction volume",
 			style: {
 				minWidth: "150px",
 			},
 		},
 		{
-			dataField: "",
-			text: "Http status ",
+			dataField: "webhook_url",
+			text: "Webhook Url",
 			formatter: ResponseColumnFormatter,
 			style: {
 				minWidth: "100px",
-			},
-		},
-		{
-			dataField: "event",
-			text: "Webhook event",
-			style: {
-				minWidth: "200px",
-			},
-		},
-		{
-			dataField: "response_time",
-			text: "Response time",
-			formatter: TimeColumnFormatter,
-			style: {
-				minWidth: "120px",
-			},
-		},
-
-		{
-			dataField: "action",
-			text: "Status",
-			formatter: ActionsColumnFormatter,
-			formatExtraData: { openModal },
-			style: {
-				minWidth: "80px",
 			},
 		},
 
@@ -164,20 +142,20 @@ export default function WebhookTable({ days }) {
 	};
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const fetchData = async token => {
 			setLoading(true);
 			try {
 				const res = await axios.get(
-					`clientlogs/get_webhook_event?days=${days}&page=${tableUIProps.queryParams.pageNumber}`,
+					`superadmin/admin-api-access-requests?page=${tableUIProps.queryParams.pageNumber}`,
 					{
 						headers: {
-							token: `Bearer ${admindetails.live_authorization_token}`,
+							token: `Bearer ${token}`,
 						},
 					}
 				);
-				setWebhooks(
-					res.data.data.data.length === 0 ? null : res.data.data.data
-				);
+				console.log("requests", res);
+				setWebhooks(res.data.data.length === 0 ? null : res.data.data);
+
 				setTotalCount(res.data.data.total);
 
 				// setTotalCount(res.data.total_count);
@@ -187,12 +165,8 @@ export default function WebhookTable({ days }) {
 			}
 		};
 
-		fetchData();
-	}, [
-		tableUIProps.queryParams.pageNumber,
-		admindetails.live_authorization_token,
-		days,
-	]);
+		callApiWithToken(fetchData);
+	}, [tableUIProps.queryParams.pageNumber]);
 
 	return (
 		<React.Fragment>

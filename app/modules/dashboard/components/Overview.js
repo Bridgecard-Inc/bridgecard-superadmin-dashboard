@@ -43,41 +43,41 @@ export const Overview = () => {
 		fn(prev => !prev);
 	};
 
-	const fetchAdminDeets = async id => {
-		setFetching(true);
-		try {
-			const res = await axios.get("admin/", {
-				headers: {
-					token: `Bearer ${id}`,
-				},
-			});
+	// const fetchAdminDeets = async id => {
+	// 	setFetching(true);
+	// 	try {
+	// 		const res = await axios.get("admin/", {
+	// 			headers: {
+	// 				token: `Bearer ${id}`,
+	// 			},
+	// 		});
 
-			if (res.status === 200) {
-				setAdminDetails(res.data.data);
-			}
-		} catch (err) {
-		} finally {
-			setFetching(false);
-		}
-	};
+	// 		if (res.status === 200) {
+	// 			setAdminDetails(res.data.data);
+	// 		}
+	// 	} catch (err) {
+	// 	} finally {
+	// 		setFetching(false);
+	// 	}
+	// };
 
-	const fetchStats = async id => {
-		setFetching(true);
-		try {
-			const res = await axios.get("admin/api/stats", {
-				headers: {
-					token: `Bearer ${id}`,
-				},
-			});
+	// const fetchStats = async id => {
+	// 	setFetching(true);
+	// 	try {
+	// 		const res = await axios.get("admin/api/stats", {
+	// 			headers: {
+	// 				token: `Bearer ${id}`,
+	// 			},
+	// 		});
 
-			if (res.status === 200) {
-				setStats(res.data.data);
-			}
-		} catch (err) {
-		} finally {
-			setFetching(false);
-		}
-	};
+	// 		if (res.status === 200) {
+	// 			setStats(res.data.data);
+	// 		}
+	// 	} catch (err) {
+	// 	} finally {
+	// 		setFetching(false);
+	// 	}
+	// };
 
 	const formatStr = x => {
 		let converted = x / 100;
@@ -85,13 +85,13 @@ export const Overview = () => {
 		return `$${formatted}`;
 	};
 
-	useEffect(() => {
-		callApiWithToken(fetchAdminDeets);
-	}, []);
+	// useEffect(() => {
+	// 	callApiWithToken(fetchAdminDeets);
+	// }, []);
 
-	useEffect(() => {
-		callApiWithToken(fetchStats);
-	}, []);
+	// useEffect(() => {
+	// 	callApiWithToken(fetchStats);
+	// }, []);
 
 	return fetching ? (
 		<div className="loading-div">

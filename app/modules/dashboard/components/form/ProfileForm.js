@@ -1,16 +1,18 @@
 import Select from "react-select";
 import React, { useId, useState } from "react";
+import AsyncSelect from "../../../../utils/AsyncSelect";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { callApiWithToken } from "../../../../utils/callApiWithToken";
 
-export const ProfileForm = ({ adminDetails, profileEdited }) => {
-	const currency = [{ value: "USD", label: "USD" }];
+export const ProfileForm = ({ profileEdited }) => {
 	const [edit, setEdit] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const [error, setIsError] = useState(false);
-
+	const { environment } = useSelector(state => state.app);
 	const customStyles = {
 		placeholder: () => ({
 			fontSize: "16px",
@@ -49,23 +51,15 @@ export const ProfileForm = ({ adminDetails, profileEdited }) => {
 	};
 
 	const initialValues = {
-		first_name: adminDetails.first_name,
-		last_name: adminDetails.last_name,
-		country: adminDetails.country,
-		company_name: adminDetails.company_name,
-		work_email: adminDetails.work_email,
-		password: adminDetails.password,
-		intl_phone_number: adminDetails.intl_phone_number,
-		currency: "USD",
-		webhook_url: adminDetails.webhook_url,
+		administrator: "",
+		amount: "",
+		description: "",
 	};
 
 	const validationSchema = Yup.object().shape({
-		first_name: Yup.string().required(""),
-		last_name: Yup.string().required(""),
-		intl_phone_number: Yup.string().required(""),
-		work_email: Yup.string(),
-		webhook_url: Yup.string().required(""),
+		administrator: Yup.string().required(""),
+		amount: Yup.number().required(""),
+		description: Yup.string().required(""),
 	});
 
 	const formik = useFormik({
@@ -73,41 +67,35 @@ export const ProfileForm = ({ adminDetails, profileEdited }) => {
 		validationSchema: validationSchema,
 		enableReinitialize: true,
 		onSubmit: async (values, actions) => {
-			const {
-				first_name,
-				last_name,
-				intl_phone_number,
-				work_email,
-				webhook_url,
-			} = values;
-			const editedValues = {
-				first_name,
-				last_name,
-				intl_phone_number,
-				work_email,
-				webhook_url,
-			};
-
-			const changeProfileDeets = async token => {
+			const topupAdmin = async token => {
 				try {
 					actions.setSubmitting(true);
-					const res = await axios.patch("/admin/", editedValues, {
-						headers: {
-							Token: `Bearer ${token}`,
+					const res = await axios.patch(
+						`superadmin/topup-admin-issuing-balance/${values.administrator}/USD/${values.amount}/${environment}`,
+						{
+							description: values.description,
 						},
-					});
-
-					profileEdited();
+						{
+							headers: {
+								Token: `Bearer ${token}`,
+							},
+						}
+					);
+					console.log(res);
+					formik.resetForm();
+					setSuccess(true);
+					handleCancel();
 				} catch (err) {
 					setIsError(true);
 				} finally {
 					actions.setSubmitting(false);
 					setTimeout(() => {
 						setIsError(false);
+						setSuccess(false);
 					}, 3000);
 				}
 			};
-			callApiWithToken(changeProfileDeets);
+			callApiWithToken(topupAdmin);
 		},
 	});
 
@@ -122,48 +110,29 @@ export const ProfileForm = ({ adminDetails, profileEdited }) => {
 	return (
 		<main>
 			<form>
-				<div className="grid-input">
-					<div className="auth-input-container">
-						<input
-							type="text"
-							className="auth-input"
-							placeholder="First Name"
-							disabled={!edit}
-							{...formik.getFieldProps("first_name")}
-						/>
-					</div>
-
-					<div className="auth-input-container">
-						<input
-							type="text"
-							className="auth-input"
-							placeholder="Last Name"
-							disabled={!edit}
-							{...formik.getFieldProps("last_name")}
-						/>
-					</div>
+				<div className="auth-input-container">
+					<AsyncSelect
+						url={
+							"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/superadmin/administrators"
+						}
+						customStyles={customStyles}
+						placeholder="Administrators"
+						reload={true}
+						isDisabled={!edit}
+						handleChange={e => {
+							console.log(formik.values);
+							formik.setFieldValue("administrator", e?.value);
+						}}
+					/>
 				</div>
 
 				<div className="auth-input-container">
 					<input
-						type="text"
+						type="number"
 						className="auth-input"
-						placeholder="Work Email"
+						placeholder="Amount in cents"
 						disabled={!edit}
-						{...formik.getFieldProps("work_email")}
-					/>
-					<p className="profile-info">
-						We’ll use this mail if we need to contact you about your account.
-					</p>
-				</div>
-
-				<div className="auth-input-container">
-					<input
-						type="text"
-						className="auth-input"
-						placeholder="Company Name"
-						disabled
-						{...formik.getFieldProps("company_name")}
+						{...formik.getFieldProps("amount")}
 					/>
 				</div>
 
@@ -171,29 +140,9 @@ export const ProfileForm = ({ adminDetails, profileEdited }) => {
 					<input
 						type="text"
 						className="auth-input"
-						placeholder=" Phone Number"
+						placeholder="Description"
 						disabled={!edit}
-						{...formik.getFieldProps("intl_phone_number")}
-					/>
-				</div>
-
-				<div className="auth-input-container">
-					<input
-						type="text"
-						className="auth-input"
-						placeholder="Webhook url"
-						disabled={!edit}
-						{...formik.getFieldProps("webhook_url")}
-					/>
-				</div>
-
-				<div className="auth-input-container">
-					<Select
-						styles={customStyles}
-						placeholder="Currency"
-						options={currency}
-						instanceId={useId()}
-						value={currency}
+						{...formik.getFieldProps("description")}
 					/>
 				</div>
 
@@ -202,13 +151,19 @@ export const ProfileForm = ({ adminDetails, profileEdited }) => {
 						<p> An error occured, please try again</p>
 					</div>
 				)}
+
+				{success && (
+					<div className="success-message">
+						<p> Admin topped up successfully</p>
+					</div>
+				)}
 			</form>
 			<div className="profile-cta">
 				<button
 					className="edit-cta"
 					onClick={edit ? handleCancel : editProfile}
 				>
-					{edit ? "Cancel" : "Edit Profile"}
+					{edit ? "Cancel" : "Topup admin"}
 				</button>
 				{edit && (
 					<button
