@@ -22,22 +22,6 @@ export const AsideMenuLinks = () => {
 	return (
 		<div className="aside-menu">
 			<div className="aside-menu-links">
-				<div
-					className={
-						asPath === "/dashboard"
-							? "aside-menu-link active"
-							: "aside-menu-link"
-					}
-					onClick={handleDashboard}
-				>
-					{asPath === "/dashboard" ? (
-						<SVG src={"../../media/svg/menu-icons/dashboard-lte.svg"} />
-					) : (
-						<SVG src={"../../media/svg/menu-icons/dashboard.svg"} />
-					)}
-					<p className="menu--text">Dashboard</p>
-				</div>
-
 				{/*
 				<div className="aside-menu-link">
 					<SVG src={"../media/svg/menu-icons/balance.svg"} />

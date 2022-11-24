@@ -153,10 +153,10 @@ export default function WebhookTable({ days }) {
 						},
 					}
 				);
-				console.log("requests", res);
+
 				setWebhooks(res.data.data.length === 0 ? null : res.data.data);
 
-				setTotalCount(res.data.data.total);
+				setTotalCount(res.data.meta.total);
 
 				// setTotalCount(res.data.total_count);
 			} catch (err) {

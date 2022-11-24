@@ -86,12 +86,11 @@ export const Api = ({ adminDetails, profileEdited }) => {
 							},
 						}
 					);
-					console.log(res);
+
 					formik.resetForm();
 					setSuccess(true);
 					handleCancel();
 				} catch (err) {
-					console.log(err);
 					setIsError(true);
 				} finally {
 					actions.setSubmitting(false);
@@ -127,7 +126,6 @@ export const Api = ({ adminDetails, profileEdited }) => {
 						reload={true}
 						isDisabled={!edit}
 						handleChange={e => {
-							console.log(formik.values);
 							formik.setFieldValue("administrator", e?.value);
 						}}
 					/>

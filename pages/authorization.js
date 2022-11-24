@@ -12,15 +12,12 @@ function Authorization() {
 		const unsubscribe = auth?.currentUser
 			.getIdTokenResult()
 			.then(idTokenResult => {
-				console.log(idTokenResult);
 				if (idTokenResult.claims.role === "superadmin") {
-					router.push("/dashboard");
+					router.push("/dashboard/webhooks");
 				} else {
 				}
 			})
-			.catch(error => {
-				console.log(error);
-			});
+			.catch(error => {});
 	}, []);
 	return (
 		<div className="App">

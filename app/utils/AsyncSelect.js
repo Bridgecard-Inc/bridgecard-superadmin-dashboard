@@ -30,10 +30,9 @@ export default function AsyncSelect({
 					Token: `Bearer ${token}`,
 				},
 			});
-			console.log("res", res);
+
 			setOptions(res.data.data.data ? res.data.data.data : []);
 		} catch (err) {
-			console.log(err);
 		} finally {
 			setLoading(false);
 		}

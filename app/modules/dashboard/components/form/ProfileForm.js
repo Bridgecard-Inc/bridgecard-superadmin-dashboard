@@ -81,7 +81,7 @@ export const ProfileForm = ({ profileEdited }) => {
 							},
 						}
 					);
-					console.log(res);
+		\
 					formik.resetForm();
 					setSuccess(true);
 					handleCancel();
@@ -120,7 +120,7 @@ export const ProfileForm = ({ profileEdited }) => {
 						reload={true}
 						isDisabled={!edit}
 						handleChange={e => {
-							console.log(formik.values);
+			
 							formik.setFieldValue("administrator", e?.value);
 						}}
 					/>

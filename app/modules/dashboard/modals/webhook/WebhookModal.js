@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./WebhookModal.module.scss";
 import { motion } from "framer-motion";
 import SVG from "react-inlinesvg";
+import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 import { useAuthContext } from "../../../../firebase/AuthContext";
+import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
 
 export const WebhookModal = () => {
 	const context = useAuthContext();
 	const { isWebhookModalVisible, setIsWebhookModalVisible, webHookRow } =
 		context;
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [success, setSuccess] = useState(false);
+	const [error, setError] = useState(false);
 	const closeModal = () => {
 		setIsWebhookModalVisible(false);
 	};
@@ -28,7 +34,28 @@ export const WebhookModal = () => {
 		},
 	};
 
-	console.log(webHookRow);
+	const verifyRequest = async token => {
+		setIsSubmitting(true);
+		try {
+			const res = await axios.patch(
+				`superadmin/verify-admin-kyc-information/${webHookRow.id}`,
+				{},
+				{
+					headers: {
+						Token: `Bearer ${token}`,
+					},
+				}
+			);
+			setSuccess(true);
+		} catch (err) {
+			setError(true);
+		} finally {
+			setIsSubmitting(false);
+			setTimeout(() => {
+				setError(false);
+			}, 4000);
+		}
+	};
 
 	return (
 		isWebhookModalVisible && (
@@ -188,6 +215,35 @@ export const WebhookModal = () => {
 								)}
 							</div>
 						</div>
+
+						{error && (
+							<div className="error-message">
+								<p> An error occured, please try again</p>
+							</div>
+						)}
+
+						{success && (
+							<div className="success-message">
+								<p> Kyc verified successfully</p>
+							</div>
+						)}
+					</div>
+					<div className={styles.modalFooter}>
+						<div></div>
+						<button
+							className="delete-btn"
+							type="button"
+							onClick={() => {
+								callApiWithToken(verifyRequest);
+							}}
+						>
+							{" "}
+							{isSubmitting ? (
+								<ThreeDots color="#141416" height={40} width={40} />
+							) : (
+								"Verify Request"
+							)}
+						</button>
 					</div>
 				</motion.div>
 			</motion.div>

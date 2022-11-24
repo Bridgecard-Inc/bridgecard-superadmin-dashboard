@@ -9,7 +9,7 @@ import axios from "axios";
 export const NoWebhook = ({ heading, title }) => {
 	const router = useRouter();
 	const [submitting, setSubmitting] = useState(false);
-	console.log(router);
+
 	const context = useAuthContext();
 	const { cardChanged } = context;
 
@@ -27,7 +27,6 @@ export const NoWebhook = ({ heading, title }) => {
 			);
 			cardChanged();
 		} catch (err) {
-			console.log(err);
 		} finally {
 			setSubmitting(false);
 		}

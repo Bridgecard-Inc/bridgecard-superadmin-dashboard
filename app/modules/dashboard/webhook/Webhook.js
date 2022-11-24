@@ -17,7 +17,7 @@ export default function Webhook() {
 	return (
 		<React.Fragment>
 			<div className="issued-cards-header">
-				<h1 className="dashboard-title">Webhook Events</h1>
+				<h1 className="dashboard-title">Access Requests</h1>
 			</div>
 			<div className="table-holder">
 				{" "}
