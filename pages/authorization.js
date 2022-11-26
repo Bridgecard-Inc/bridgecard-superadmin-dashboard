@@ -7,7 +7,6 @@ import Router, { useRouter } from "next/router";
 function Authorization() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
-
 	const router = useRouter();
 	useEffect(() => {
 		const unsubscribe = auth?.currentUser
