@@ -196,6 +196,21 @@ export const WebhookModal = () => {
 							</div>
 
 							<div className={styles.kycDeets}>
+								<h4>Memart</h4>
+								{webHookRow?.kyc_information?.memart.includes(".pdf?") ? (
+									<a
+										href={webHookRow?.kyc_information?.memart}
+										target="_blank"
+										rel="noreferrer"
+									>
+										Memart
+									</a>
+								) : (
+									<img src={webHookRow?.kyc_information?.memart} alt="" />
+								)}
+							</div>
+
+							<div className={styles.kycDeets}>
 								<h4>Director Id</h4>
 								{webHookRow?.kyc_information?.director_id?.id_image.includes(
 									".pdf?"

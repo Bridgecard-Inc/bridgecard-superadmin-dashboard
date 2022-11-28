@@ -15,6 +15,7 @@ function Authorization() {
 				if (idTokenResult.claims.role === "superadmin") {
 					router.push("/dashboard/webhooks");
 				} else {
+					router.push("/");
 				}
 			})
 			.catch(error => {});

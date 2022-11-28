@@ -104,7 +104,7 @@ export const Signin = () => {
 						</p>
 					</div>
 
-					{error && <div className="error-message"></div>}
+					{error && <div className="error-message">An Error Occured!</div>}
 
 					<button
 						className="auth-btn"
