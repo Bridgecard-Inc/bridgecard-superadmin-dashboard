@@ -34,6 +34,8 @@ export const WebhookModal = () => {
 		},
 	};
 
+	console.log(webHookRow);
+
 	const verifyRequest = async token => {
 		setIsSubmitting(true);
 		try {
@@ -164,9 +166,7 @@ export const WebhookModal = () => {
 									".pdf?"
 								) ? (
 									<a
-										href={
-											webHookRow?.kyc_information?.cac_registration_document
-										}
+										href={webHookRow?.kyc_information?.cac_regisration_document}
 										target="_blank"
 										rel="noreferrer"
 									>
