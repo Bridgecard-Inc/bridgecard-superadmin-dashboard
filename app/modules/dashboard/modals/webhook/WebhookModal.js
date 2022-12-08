@@ -170,7 +170,7 @@ export const WebhookModal = () => {
 										target="_blank"
 										rel="noreferrer"
 									>
-										Cac registration document
+										Cac Registration document
 									</a>
 								) : (
 									<img
