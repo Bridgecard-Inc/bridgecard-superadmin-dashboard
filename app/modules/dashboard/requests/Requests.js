@@ -3,10 +3,9 @@ import { ThreeDots } from "react-loader-spinner";
 import { callApiWithToken } from "../../../utils/callApiWithToken";
 import axios from "axios";
 import SVG from "react-inlinesvg";
-import WebhookTable from "./webhook-table/WebhookTable";
-import { NoWebhook } from "./webhook-table/NoWebhook";
+import RequestsTable from "./requests-table/RequestsTable";
 
-export default function Webhook() {
+export default function Requests() {
 	const [filtered, setFiltered] = useState(false);
 	const [days, setDays] = useState(1);
 
@@ -21,7 +20,7 @@ export default function Webhook() {
 			</div>
 			<div className="table-holder">
 				{" "}
-				<WebhookTable />
+				<RequestsTable />
 			</div>
 		</React.Fragment>
 	);

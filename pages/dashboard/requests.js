@@ -1,15 +1,16 @@
 import React from "react";
 import { WebhookModal } from "../../app/modules/dashboard/modals/webhook/WebhookModal";
-import Transactions from "../../app/modules/dashboard/transaction-history/Transactions";
-import Webhook from "../../app/modules/dashboard/webhook/Webhook";
+import Requests from "../../app/modules/dashboard/requests/Requests";
+
 import { TableUIProvider } from "../../_helpers/TableUIContext";
 
-export default function TransactionHistory() {
+export default function webhooks() {
 	return (
 		<React.Fragment>
 			<TableUIProvider>
-				<Transactions />
+				<Requests />
 			</TableUIProvider>
+			<WebhookModal />
 		</React.Fragment>
 	);
 }

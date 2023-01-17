@@ -29,6 +29,24 @@ export const AsideMenuLinks = () => {
 					</div> */}
 				<div
 					className={
+						asPath === "/dashboard/requests"
+							? "aside-menu-link active"
+							: "aside-menu-link"
+					}
+					onClick={() => {
+						handleClick("requests");
+					}}
+				>
+					{asPath === "/dashboard/requests" ? (
+						<SVG src={"../../../media/svg/notifications.svg"} />
+					) : (
+						<SVG src={"../../../media/svg/notifications.svg"} />
+					)}
+					<p className="menu--text">Requests</p>
+				</div>
+
+				<div
+					className={
 						asPath === "/dashboard/webhooks"
 							? "aside-menu-link active"
 							: "aside-menu-link"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { auth } from "../app/firebase/firebase";
 import firebase from "../app/firebase/firebase";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 function Authorization() {
 	const [loading, setLoading] = useState(true);

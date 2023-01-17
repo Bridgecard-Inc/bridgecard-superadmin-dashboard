@@ -13,19 +13,15 @@ import {
 import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
 import { Pagination } from "../../../../../_helpers/pagination/index";
 import { useTableUIContext } from "../../../../../_helpers/TableUIContext";
-import { useSelector } from "react-redux";
 import axios from "axios";
-import { DateColumnFormatter } from "./column-formatters/DateColumnFormatter";
-import { ActionsColumnFormatter } from "./column-formatters/ActionColumnFormatters";
 import Box from "../../../../utils/Box";
 import { Text } from "../../../../utils/primitives";
 import { useAuthContext } from "../../../../firebase/AuthContext";
 
-export default function WebhookTable({ days }) {
+export default function CompaniesTable({ days }) {
 	const [loading, setLoading] = useState(false);
 	const [totalCount, setTotalCount] = useState(0);
 	const [webhooks, setWebhooks] = useState(null);
-	const { admindetails } = useSelector(state => state.app);
 	let id = useId();
 	const tableUIContext = useTableUIContext();
 	const tableUIProps = useMemo(() => {
