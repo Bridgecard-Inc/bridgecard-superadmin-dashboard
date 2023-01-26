@@ -46,7 +46,7 @@ export const Signin = () => {
 				const res = await signInWithEmail(work_email, password);
 
 				dispatch(setAuth(true));
-				router.push("/authorization");
+				router.push("/dashboard/requests");
 			} catch (err) {
 				setError(true);
 				setMessage(err.code);

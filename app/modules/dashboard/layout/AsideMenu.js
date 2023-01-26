@@ -47,6 +47,24 @@ export const AsideMenuLinks = () => {
 
 				<div
 					className={
+						asPath === "/dashboard/administrators"
+							? "aside-menu-link active"
+							: "aside-menu-link"
+					}
+					onClick={() => {
+						handleClick("administrators");
+					}}
+				>
+					{asPath === "/dashboard/administrators" ? (
+						<SVG src={"../../../media/svg/menu-icons/User-notify.svg"} />
+					) : (
+						<SVG src={"../../../media/svg/menu-icons/User-notify-lte.svg"} />
+					)}
+					<p className="menu--text">Administrators</p>
+				</div>
+
+				<div
+					className={
 						asPath === "/dashboard/webhooks"
 							? "aside-menu-link active"
 							: "aside-menu-link"
@@ -56,11 +74,11 @@ export const AsideMenuLinks = () => {
 					}}
 				>
 					{asPath === "/dashboard/webhooks" ? (
-						<SVG src={"../../../media/svg/notifications.svg"} />
+						<SVG src={"../../../media/svg/menu-icons/webhook.svg"} />
 					) : (
-						<SVG src={"../../../media/svg/notifications.svg"} />
+						<SVG src={"../../../media/svg/menu-icons/webhook-lte.svg"} />
 					)}
-					<p className="menu--text">Requests</p>
+					<p className="menu--text">Webhooks</p>
 				</div>
 
 				<div className="settings-menu">

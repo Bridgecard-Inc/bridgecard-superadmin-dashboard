@@ -13,15 +13,17 @@ import {
 import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
 import { Pagination } from "../../../../../_helpers/pagination/index";
 import { useTableUIContext } from "../../../../../_helpers/TableUIContext";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import Box from "../../../../utils/Box";
 import { Text } from "../../../../utils/primitives";
 import { useAuthContext } from "../../../../firebase/AuthContext";
 
-export default function CompaniesTable({ days }) {
+export default function WebhooksTable({ days }) {
 	const [loading, setLoading] = useState(false);
 	const [totalCount, setTotalCount] = useState(0);
-	const [companies, setCompanies] = useState(null);
+	const [webhooks, setWebhooks] = useState(null);
+	const { admindetails } = useSelector(state => state.app);
 	let id = useId();
 	const tableUIContext = useTableUIContext();
 	const tableUIProps = useMemo(() => {
@@ -41,7 +43,7 @@ export default function CompaniesTable({ days }) {
 		setWebRow(row);
 	};
 
-	function ResponseColumnFormatter(cellContent, row, _rowIndex) {
+	function ResponseColumnFormatter(_cellContent, row, _rowIndex) {
 		return (
 			<Box className="d-flex align-items-center">
 				<Box ml="0">
@@ -54,7 +56,9 @@ export default function CompaniesTable({ days }) {
 						m="0"
 						fontFamily="GT Walsheim Pro"
 					>
-						${(cellContent / 100).toFixed(2)}
+						<a href={row.webhook_url} target="_blank" rel="noreferrer">
+							{row.webhook_url}
+						</a>
 					</Box>
 				</Box>
 			</Box>
@@ -103,45 +107,30 @@ export default function CompaniesTable({ days }) {
 
 	const columns = [
 		{
-			dataField: "company_name",
-			text: "Company name",
-			style: {
-				minWidth: "250px",
-			},
-		},
-		{
-			dataField: "issuing_balance_USD_sandbox",
-			text: "Issuing Balance(sandbox)",
-			formatter: ResponseColumnFormatter,
+			dataField: "transaction_volume_in_local_currency",
+			text: "Transaction volume",
 			style: {
 				minWidth: "150px",
 			},
 		},
-
 		{
-			dataField: "issuing_balance_USD_production",
-			text: "Issuing Balance(production)",
+			dataField: "webhook_url",
+			text: "Webhook Url",
 			formatter: ResponseColumnFormatter,
-			style: {
-				minWidth: "150px",
-			},
-		},
-
-		{
-			dataField: "work_email",
-			text: "Email",
 			style: {
 				minWidth: "100px",
 			},
 		},
 
-		// {
-		// 	dataField: "is_verified",
-		// 	text: "Status",
-		// 	style: {
-		// 		minWidth: "100px",
-		// 	},
-		// },
+		{
+			dataField: "",
+			text: "",
+			formatter: ViewColumnFormatter,
+			formatExtraData: { openModal },
+			style: {
+				minWidth: "80px",
+			},
+		},
 	];
 	const paginationOptions = {
 		custom: true,
@@ -155,19 +144,17 @@ export default function CompaniesTable({ days }) {
 			setLoading(true);
 			try {
 				const res = await axios.get(
-					`superadmin/administrators?fetch_type=all&page=${tableUIProps.queryParams.pageNumber}`,
+					`superadmin/admin-api-access-requests?page=${tableUIProps.queryParams.pageNumber}`,
 					{
 						headers: {
 							token: `Bearer ${token}`,
 						},
 					}
 				);
-				console.log(res);
-				setCompanies(
-					res.data.data.data.length === 0 ? null : res.data.data.data
-				);
 
-				setTotalCount(res.data.data.meta.total);
+				setWebhooks(res.data.data.length === 0 ? null : res.data.data);
+
+				setTotalCount(res.data.meta.total);
 
 				// setTotalCount(res.data.total_count);
 			} catch (err) {
@@ -193,7 +180,7 @@ export default function CompaniesTable({ days }) {
 									bordered={false}
 									remote
 									keyField={id}
-									data={companies === null ? [] : companies}
+									data={webhooks === null ? [] : webhooks}
 									columns={columns}
 									defaultSorted={uiHelpers.defaultSorted}
 									onTableChange={getHandlerTableChange(
@@ -201,9 +188,9 @@ export default function CompaniesTable({ days }) {
 									)}
 									{...paginationTableProps}
 								/>
-								<PleaseWaitMessage entities={companies} isLoading={loading} />
+								<PleaseWaitMessage entities={webhooks} isLoading={loading} />
 								<NoRecordsFoundMessage
-									entities={companies}
+									entities={webhooks}
 									isLoading={loading}
 								/>
 							</div>
