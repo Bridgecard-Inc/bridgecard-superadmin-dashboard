@@ -17,8 +17,10 @@ import axios from "axios";
 import Box from "../../../../utils/Box";
 import { Text } from "../../../../utils/primitives";
 import { useAuthContext } from "../../../../firebase/AuthContext";
+import { useRouter } from "next/router";
 
 export default function CompaniesTable({ days }) {
+	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [totalCount, setTotalCount] = useState(0);
 	const [companies, setCompanies] = useState(null);
@@ -79,14 +81,12 @@ export default function CompaniesTable({ days }) {
 		);
 	}
 
-	function ViewColumnFormatter(_cellContent, row, _rowIndex, { openModal }) {
+	function ViewColumnFormatter(_cellContent, row, _rowIndex) {
 		return (
 			<Box className="d-flex align-items-center pointer">
 				<Box ml="0">
 					<Text
-						onClick={() => {
-							openModal(row);
-						}}
+						onClick={() => router.push(`/dashboard/${row.id}/actions`)}
 						as="p"
 						color={"#AA8401"}
 						fontSize="14px"
@@ -131,17 +131,18 @@ export default function CompaniesTable({ days }) {
 			dataField: "work_email",
 			text: "Email",
 			style: {
-				minWidth: "100px",
+				minWidth: "150px",
 			},
 		},
 
-		// {
-		// 	dataField: "is_verified",
-		// 	text: "Status",
-		// 	style: {
-		// 		minWidth: "100px",
-		// 	},
-		// },
+		{
+			dataField: "",
+			text: "Actions",
+			style: {
+				minWidth: "50px",
+			},
+			formatter: ViewColumnFormatter,
+		},
 	];
 	const paginationOptions = {
 		custom: true,

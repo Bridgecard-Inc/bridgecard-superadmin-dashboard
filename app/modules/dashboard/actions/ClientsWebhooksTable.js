@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState, useId } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import * as uiHelpers from "../../../../../_helpers/TableUIHelpers";
+import * as uiHelpers from "../../../../_helpers/TableUIHelpers";
 import paginationFactory, {
 	PaginationProvider,
 } from "react-bootstrap-table2-paginator";
@@ -9,21 +9,23 @@ import {
 	getHandlerTableChange,
 	NoRecordsFoundMessage,
 	PleaseWaitMessage,
-} from "../../../../../_helpers/TablePaginationHelpers";
-import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
-import { Pagination } from "../../../../../_helpers/pagination/index";
-import { useTableUIContext } from "../../../../../_helpers/TableUIContext";
+} from "../../../../_helpers/TablePaginationHelpers";
+import { Pagination } from "../../../../_helpers/pagination/index";
+import { useTableUIContext } from "../../../../_helpers/TableUIContext";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import Box from "../../../../utils/Box";
-import { Text } from "../../../../utils/primitives";
-import { useAuthContext } from "../../../../firebase/AuthContext";
+import { DateColumnFormatter } from "./column-formatters/DateColumnFormatter";
+import { ActionsColumnFormatter } from "./column-formatters/ActionColumnFormatters";
+import Box from "../../../utils/Box";
+import { Text } from "../../../utils/primitives";
+import { useAuthContext } from "../../../firebase/AuthContext";
+import { callApiWithToken } from "../../../../_helpers/functions/callApi";
+import { useRouter } from "next/router";
 
-export default function RequestsTable({ days }) {
+export default function ClientsWebhooksTable({ days }) {
 	const [loading, setLoading] = useState(false);
 	const [totalCount, setTotalCount] = useState(0);
-	const [webhooks, setWebhooks] = useState(null);
-	const { admindetails } = useSelector(state => state.app);
+	const [logs, setLogs] = useState(null);
 	let id = useId();
 	const tableUIContext = useTableUIContext();
 	const tableUIProps = useMemo(() => {
@@ -35,31 +37,32 @@ export default function RequestsTable({ days }) {
 		};
 	}, [tableUIContext]);
 
-	const context = useAuthContext();
-	const { setWebRow, setIsWebhookModalVisible } = context;
+	const router = useRouter();
+	console.log("router", router);
+	const user_id = router?.query?.card_id;
 
-	const openModal = row => {
-		setIsWebhookModalVisible(true);
-		setWebRow(row);
-	};
+	// const context = useAuthContext();
+	// const { setWebRow, setIsWebhookModalVisible } = context;
+
+	// const openModal = row => {
+	// 	setIsWebhookModalVisible(true);
+	// 	setWebRow(row);
+	// };
 
 	function ResponseColumnFormatter(_cellContent, row, _rowIndex) {
 		return (
 			<Box className="d-flex align-items-center">
 				<Box ml="0">
-					<Box
-						className="pointer"
-						cursor="pointer"
-						color="#3374FF"
+					<Text
+						as="p"
+						color={row.response_status_code === 200 ? "green" : "red"}
 						fontSize="14px"
 						fontWeight="300"
 						m="0"
 						fontFamily="GT Walsheim Pro"
 					>
-						<a href={row.webhook_url} target="_blank" rel="noreferrer">
-							{row.webhook_url}
-						</a>
-					</Box>
+						{row.response_status_code}
+					</Text>
 				</Box>
 			</Box>
 		);
@@ -107,30 +110,56 @@ export default function RequestsTable({ days }) {
 
 	const columns = [
 		{
-			dataField: "transaction_volume_in_local_currency",
-			text: "Transaction volume",
+			dataField: "time_sent",
+			text: "Date",
+			formatter: DateColumnFormatter,
 			style: {
-				minWidth: "250px",
+				minWidth: "150px",
 			},
 		},
 		{
-			dataField: "webhook_url",
-			text: "Webhook Url",
+			dataField: "",
+			text: "Http status ",
 			formatter: ResponseColumnFormatter,
 			style: {
 				minWidth: "100px",
 			},
 		},
-
 		{
-			dataField: "",
-			text: "",
-			formatter: ViewColumnFormatter,
-			formatExtraData: { openModal },
+			dataField: "event",
+			text: "Webhook event",
 			style: {
-				minWidth: "80px",
+				minWidth: "200px",
 			},
 		},
+		{
+			dataField: "response_time",
+			text: "Response time",
+			formatter: TimeColumnFormatter,
+			style: {
+				minWidth: "120px",
+			},
+		},
+
+		// {
+		// 	dataField: "action",
+		// 	text: "Status",
+		// 	formatter: ActionsColumnFormatter,
+		// 	formatExtraData: { openModal },
+		// 	style: {
+		// 		minWidth: "80px",
+		// 	},
+		// },
+
+		// {
+		// 	dataField: "",
+		// 	text: "",
+		// 	formatter: ViewColumnFormatter,
+		// 	formatExtraData: { openModal },
+		// 	style: {
+		// 		minWidth: "80px",
+		// 	},
+		// },
 	];
 	const paginationOptions = {
 		custom: true,
@@ -144,19 +173,16 @@ export default function RequestsTable({ days }) {
 			setLoading(true);
 			try {
 				const res = await axios.get(
-					`superadmin/admin-api-access-requests?page=${tableUIProps.queryParams.pageNumber}`,
+					`clientlogs/get_webhook_event_super_admin?days=${days}&page=${tableUIProps.queryParams.pageNumber}&id=${user_id}`,
 					{
 						headers: {
 							token: `Bearer ${token}`,
 						},
 					}
 				);
-
-				setWebhooks(res.data.data.length === 0 ? null : res.data.data);
-
-				setTotalCount(res.data.meta.total);
-
-				// setTotalCount(res.data.total_count);
+				console.log("res", res);
+				setLogs(res.data.data.data.length === 0 ? null : res.data.data.data);
+				setTotalCount(res.data.data.total);
 			} catch (err) {
 			} finally {
 				setLoading(false);
@@ -164,7 +190,7 @@ export default function RequestsTable({ days }) {
 		};
 
 		callApiWithToken(fetchData);
-	}, [tableUIProps.queryParams.pageNumber]);
+	}, [tableUIProps.queryParams.pageNumber, days, user_id]);
 
 	return (
 		<React.Fragment>
@@ -180,7 +206,7 @@ export default function RequestsTable({ days }) {
 									bordered={false}
 									remote
 									keyField={id}
-									data={webhooks === null ? [] : webhooks}
+									data={logs === null ? [] : logs}
 									columns={columns}
 									defaultSorted={uiHelpers.defaultSorted}
 									onTableChange={getHandlerTableChange(
@@ -188,11 +214,8 @@ export default function RequestsTable({ days }) {
 									)}
 									{...paginationTableProps}
 								/>
-								<PleaseWaitMessage entities={webhooks} isLoading={loading} />
-								<NoRecordsFoundMessage
-									entities={webhooks}
-									isLoading={loading}
-								/>
+								<PleaseWaitMessage entities={logs} isLoading={loading} />
+								<NoRecordsFoundMessage entities={logs} isLoading={loading} />
 							</div>
 						</Pagination>
 					);

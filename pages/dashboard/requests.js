@@ -1,5 +1,5 @@
 import React from "react";
-import { WebhookModal } from "../../app/modules/dashboard/modals/webhook/WebhookModal";
+import { RequestsModal } from "../../app/modules/dashboard/modals/requests/RequestsModal";
 import Requests from "../../app/modules/dashboard/requests/Requests";
 
 import { TableUIProvider } from "../../_helpers/TableUIContext";
@@ -10,7 +10,7 @@ export default function webhooks() {
 			<TableUIProvider>
 				<Requests />
 			</TableUIProvider>
-			<WebhookModal />
+			<RequestsModal />
 		</React.Fragment>
 	);
 }

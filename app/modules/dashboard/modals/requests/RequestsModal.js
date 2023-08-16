@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./WebhookModal.module.scss";
+import styles from "./RequestsModal.module.scss";
 import { motion } from "framer-motion";
 import SVG from "react-inlinesvg";
 import { ThreeDots } from "react-loader-spinner";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { useAuthContext } from "../../../../firebase/AuthContext";
 import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
 
-export const WebhookModal = () => {
+export const RequestsModal = () => {
 	const context = useAuthContext();
 	const { isWebhookModalVisible, setIsWebhookModalVisible, webHookRow } =
 		context;

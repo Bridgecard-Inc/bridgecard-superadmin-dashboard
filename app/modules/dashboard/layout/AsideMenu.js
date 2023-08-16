@@ -65,20 +65,20 @@ export const AsideMenuLinks = () => {
 
 				<div
 					className={
-						asPath === "/dashboard/webhooks"
+						asPath === "/dashboard/kyc-verification"
 							? "aside-menu-link active"
 							: "aside-menu-link"
 					}
 					onClick={() => {
-						handleClick("webhooks");
+						handleClick("kyc-verification");
 					}}
 				>
-					{asPath === "/dashboard/webhooks" ? (
+					{asPath === "/dashboard/kyc-verification" ? (
 						<SVG src={"../../../media/svg/menu-icons/webhook.svg"} />
 					) : (
 						<SVG src={"../../../media/svg/menu-icons/webhook-lte.svg"} />
 					)}
-					<p className="menu--text">Webhooks</p>
+					<p className="menu--text">KYC verification</p>
 				</div>
 
 				<div className="settings-menu">
