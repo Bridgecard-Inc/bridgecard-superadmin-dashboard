@@ -1,76 +1,108 @@
-import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import React, { useId, useState } from "react";
+import AsyncSelect from "../../../utils/AsyncSelect";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { callApiWithToken } from "../../../utils/callApiWithToken";
 
-export const Api = () => {
-	const [fetching, setFetching] = useState(false);
-	const [submitting, setSubmitting] = useState(false);
-	const [minCharge, setMinCharge] = useState(0);
-	const [interChangeFeePer, setInterChangeFeePer] = useState(0);
-	const [minInterChangeFee, setMinInterChangeFee] = useState(0);
-	const [maxInterChangeFee, setMaxInterChangeFee] = useState(0);
-
-	const [isEdited, setIsEdited] = useState(false);
+export const Api = ({ adminDetails, profileEdited }) => {
 	const [edit, setEdit] = useState(false);
-	const [side, setSide] = useState(false);
+	const [success, setSuccess] = useState(false);
+	const [error, setIsError] = useState(false);
+	const { environment } = useSelector(state => state.app);
 
-	const toggle = () => {
-		if (side === true) {
-			setSide(false);
-		} else if (side === false) {
-			setSide(true);
-		}
+	const customStyles = {
+		placeholder: () => ({
+			fontSize: "16px",
+			color: "#797979;",
+		}),
+
+		control: (base, state) => ({
+			...base,
+			border: state.isFocused ? "1px solid #ecc337" : "1px solid #ebebeb",
+			// This line disable the blue border
+			boxShadow: "none",
+			borderRadius: "12px",
+			minHeight: "62px",
+		}),
+
+		singleValue: (provided, state) => ({
+			...provided,
+			color: "#141416",
+			fontSize: "16px",
+		}),
+
+		option: (provided, state) => ({
+			...provided,
+			color: state.isSelected ? "white" : "black",
+			background: state.isSelected ? "#ecc337" : "white",
+			fontSize: "16px",
+		}),
+
+		valueContainer: (provided, state) => ({
+			...provided,
+			minHeight: "62px",
+			display: "flex",
+			alignItems: "center",
+			paddingLeft: "20px",
+		}),
 	};
-	const fetchSettingsDeets = async id => {
-		setFetching(true);
-		try {
-			const res = await axios.get(
-				"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/admin/api/settings",
-				{
-					headers: {
-						token: `Bearer ${id}`,
-					},
+
+	const initialValues = {
+		administrator: "",
+		amount: "",
+		description: "",
+	};
+
+	const validationSchema = Yup.object().shape({
+		administrator: Yup.string().required(""),
+		amount: Yup.number().required(""),
+		description: Yup.string().required(""),
+	});
+
+	const formik = useFormik({
+		initialValues,
+		validationSchema: validationSchema,
+		enableReinitialize: true,
+		onSubmit: async (values, actions) => {
+			const debitAdmin = async token => {
+				try {
+					actions.setSubmitting(true);
+					const res = await axios.patch(
+						`superadmin/debit_admin_issuing_balance/${
+							values.administrator
+						}/USD/${
+							values.amount
+						}/${environment}?is_wallet_balance_operation=${true}`,
+						{
+							description: values.description,
+						},
+						{
+							headers: {
+								Token: `Bearer ${token}`,
+							},
+						}
+					);
+
+					formik.resetForm();
+					setSuccess(true);
+					handleCancel();
+				} catch (err) {
+					setIsError(true);
+				} finally {
+					actions.setSubmitting(false);
+					setTimeout(() => {
+						setIsError(false);
+						setSuccess(false);
+					}, 3000);
 				}
-			);
-
-			if (res.status === 200) {
-				setSide(res?.data.data.charge_maintenance_fee_from_issuing_wallet);
-				setMinCharge(res?.data.data.issuing_balance_threshold);
-				setInterChangeFeePer(res?.data.data.interchange_fee_percentage);
-				setMinInterChangeFee(res?.data.data.minimum_interchange_fee);
-				setMaxInterChangeFee(res?.data.data.maximum_interchange_fee);
-			}
-		} catch (err) {
-		} finally {
-			setFetching(false);
-		}
-	};
-
-	const editSettingsDeets = async id => {
-		setSubmitting(true);
-		try {
-			const res = await axios.patch(
-				"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/admin/api/settings",
-				{
-					charge_maintenance_fee_from_issuing_wallet: side,
-					issuing_balance_threshold: minCharge,
-					interchange_fee_percentage: interChangeFeePer,
-					maximum_interchange_fee: maxInterChangeFee,
-					minimum_interchange_fee: minInterChangeFee,
-				},
-				{
-					headers: {
-						token: `Bearer ${id}`,
-					},
-				}
-			);
-		} catch (err) {
-		} finally {
-			setIsEdited(prev => !prev);
-			setSubmitting(false);
-		}
-	};
+			};
+			callApiWithToken(debitAdmin);
+		},
+	});
 
 	const editProfile = () => {
 		setEdit(true);
@@ -80,118 +112,75 @@ export const Api = () => {
 		setEdit(false);
 	};
 
-	useEffect(() => {
-		callApiWithToken(fetchSettingsDeets);
-	}, [isEdited]);
-
-	return fetching ? (
-		<div className="loading-div">
-			<ThreeDots color="#141416" height={60} width={60} />
-		</div>
-	) : (
-		<React.Fragment>
-			<h1 className="profile-heading">Authorizations</h1>
-			<div className="apis-wrap">
-				<div className="apis-div">
-					<div className="apis-div__sub-section">
-						{" "}
-						<div>
-							<p>Charge maintenance fee from issuing wallet</p>
-							<small>
-								Note: Toggle to false to charge maintenance fee directly from
-								your users.
-							</small>
-						</div>
-						{edit && (
-							<div className="toggle-wrap">
-								<div
-									className={side ? "toggle end " : "toggle start off"}
-									onClick={toggle}
-								>
-									<div className="toggle--switch"></div>
-								</div>
-							</div>
-						)}
-						{edit === false && <p className="capitalize">{side.toString()}</p>}
-					</div>
-					<div className="apis-div__sub-section">
-						<p>Issuing balance threshold ($)</p>
-						<div className="auth-input-container mb-0">
-							<input
-								type="number"
-								value={minCharge}
-								className="auth-input"
-								placeholder="Min balance"
-								onChange={e => {
-									setMinCharge(e.target.value);
-								}}
-								disabled={edit === false}
-							/>
-						</div>
-					</div>
-					<div className="apis-div__sub-section">
-						<p>Interchange fee percentage (%)</p>
-						<div className="auth-input-container mb-0">
-							<input
-								type="number"
-								value={interChangeFeePer}
-								className="auth-input"
-								placeholder="Min balance"
-								onChange={e => {
-									setInterChangeFeePer(e.target.value);
-								}}
-								disabled={edit === false}
-							/>
-						</div>
-					</div>
-					<div className="apis-div__sub-section">
-						<p>Maximum interchange fee (In cents)</p>
-						<div className="auth-input-container mb-0">
-							<input
-								type="number"
-								value={maxInterChangeFee}
-								className="auth-input"
-								placeholder="Min balance"
-								onChange={e => {
-									setMaxInterChangeFee(e.target.value);
-								}}
-								disabled={edit === false}
-							/>
-						</div>
-					</div>
-					<div className="apis-div__sub-section">
-						<p>Minimum interchange fee (In cents)</p>
-						<div className="auth-input-container mb-0">
-							<input
-								type="number"
-								value={minInterChangeFee}
-								className="auth-input"
-								placeholder="Min balance"
-								onChange={e => {
-									setMinInterChangeFee(e.target.value);
-								}}
-								disabled={edit === false}
-							/>
-						</div>
-					</div>
+	return (
+		<main>
+			<h1 className="profile-heading">Debit Admin</h1>
+			<form className="profile-form-area">
+				<div className="auth-input-container">
+					<AsyncSelect
+						url={
+							"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/superadmin/administrators"
+						}
+						customStyles={customStyles}
+						placeholder="Administrators"
+						reload={true}
+						isDisabled={!edit}
+						handleChange={e => {
+							formik.setFieldValue("administrator", e?.value);
+						}}
+					/>
 				</div>
+
+				<div className="auth-input-container">
+					<input
+						type="amount"
+						className="auth-input"
+						placeholder="Amount in cents"
+						disabled={!edit}
+						{...formik.getFieldProps("amount")}
+					/>
+				</div>
+
+				<div className="auth-input-container">
+					<input
+						type="text"
+						className="auth-input"
+						placeholder="Description"
+						disabled={!edit}
+						{...formik.getFieldProps("description")}
+					/>
+				</div>
+
+				{error && (
+					<div className="error-message">
+						<p> An error occured, please try again</p>
+					</div>
+				)}
+
+				{success && (
+					<div className="success-message">
+						<p> Admin topped up successfully</p>
+					</div>
+				)}
 
 				<div className="profile-cta">
 					<button
+						type="button"
 						className="edit-cta"
 						onClick={edit ? handleCancel : editProfile}
 					>
-						{edit ? "Cancel" : "Edit authorizations"}
+						{edit ? "Cancel" : "Debit admin"}
 					</button>
 					{edit && (
 						<button
 							className="update-cta"
 							type="button"
-							onClick={() => {
-								callApiWithToken(editSettingsDeets);
-							}}
+							disabled={
+								!((formik.isValid && formik.dirty) || formik.isSubmitting)
+							}
+							onClick={formik.handleSubmit}
 						>
-							{submitting ? (
+							{formik.isSubmitting ? (
 								<ThreeDots color="#141416" height={40} width={40} />
 							) : (
 								"Finish"
@@ -199,7 +188,7 @@ export const Api = () => {
 						</button>
 					)}
 				</div>
-			</div>
-		</React.Fragment>
+			</form>
+		</main>
 	);
 };

@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ThreeDots } from "react-loader-spinner";
-import { signInWithEmail } from "../../firebase/firebase";
+import firebase from "../../firebase/firebase";
+import { signInWithEmail, auth } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { logout, setAuth } from "../../redux/slices/app/appSlice";
 
@@ -43,8 +44,9 @@ export const Signin = () => {
 			try {
 				actions.setSubmitting(true);
 				const res = await signInWithEmail(work_email, password);
+
 				dispatch(setAuth(true));
-				router.push("/dashboard");
+				router.push("/dashboard/requests");
 			} catch (err) {
 				setError(true);
 				setMessage(err.code);
@@ -102,11 +104,7 @@ export const Signin = () => {
 						</p>
 					</div>
 
-					{error && (
-						<div className="error-message">
-							<p>{formatMsg(message)}</p>
-						</div>
-					)}
+					{error && <div className="error-message">An Error Occured!</div>}
 
 					<button
 						className="auth-btn"

@@ -10,45 +10,16 @@ export default function Profile() {
 	const [isEdited, setisEdited] = useState(false);
 	const [adminDetails, setAdminDetails] = useState([]);
 
-	const fetchAdminDeets = async id => {
-		setFetching(true);
-		try {
-			const res = await axios.get("admin/", {
-				headers: {
-					token: `Bearer ${id}`,
-				},
-			});
-
-			if (res.status === 200) {
-				setAdminDetails(res.data.data);
-			}
-		} catch (err) {
-		} finally {
-			setFetching(false);
-		}
-	};
-
 	const profileEdited = () => {
 		setisEdited(prev => !prev);
 	};
 
-	useEffect(() => {
-		callApiWithToken(fetchAdminDeets);
-	}, [isEdited]);
-
-	return fetching ? (
-		<div className="loading-div">
-			<ThreeDots color="#141416" height={60} width={60} />
-		</div>
-	) : (
+	return (
 		<React.Fragment>
-			<h1 className="profile-heading">Personal Information</h1>
+			<h1 className="profile-heading">Topup Admin</h1>
 
 			<div className="profile-form-area">
-				<ProfileForm
-					adminDetails={adminDetails}
-					profileEdited={profileEdited}
-				/>
+				<ProfileForm profileEdited={profileEdited} />
 			</div>
 		</React.Fragment>
 	);

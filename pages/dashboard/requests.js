@@ -1,13 +1,16 @@
 import React from "react";
-import Webhooks from "../../app/modules/dashboard/webhooks/Webhooks";
+import { RequestsModal } from "../../app/modules/dashboard/modals/requests/RequestsModal";
+import Requests from "../../app/modules/dashboard/requests/Requests";
+
 import { TableUIProvider } from "../../_helpers/TableUIContext";
 
 export default function webhooks() {
 	return (
 		<React.Fragment>
 			<TableUIProvider>
-				<Webhooks />
+				<Requests />
 			</TableUIProvider>
+			<RequestsModal />
 		</React.Fragment>
 	);
 }

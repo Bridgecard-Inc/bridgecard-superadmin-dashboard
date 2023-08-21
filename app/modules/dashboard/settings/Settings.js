@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import Profile from "../components/Profile";
 import { Api } from "./Api";
-import BankDetails from "./BankDetails";
-import { Teams } from "./Teams";
 
 export const Settings = () => {
 	const [activeState, toggleActiveState] = useState(1);
 	const navs = [
-		{ id: 1, name: "Profile" },
-		{ id: 3, name: "Api" },
-		{ id: 2, name: "Bank Details" },
-		{ id: 4, name: "Teams" },
+		{ id: 1, name: "Topup Admin" },
+		{ id: 3, name: "Debit Admin" },
 	];
 	const toggleActive = index => {
 		toggleActiveState(navs[index].id);
@@ -29,10 +25,6 @@ export const Settings = () => {
 			return <Profile />;
 		} else if (activeState === 3) {
 			return <Api />;
-		} else if (activeState === 2) {
-			return <BankDetails />;
-		} else if (activeState === 4) {
-			return <Teams />;
 		}
 	};
 

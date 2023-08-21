@@ -1,12 +1,12 @@
 import React from "react";
-import Webhooks from "../../app/modules/dashboard/webhooks/Webhooks";
+import Companies from "../../app/modules/dashboard/companies/Companies";
 import { TableUIProvider } from "../../_helpers/TableUIContext";
 
-export default function webhooks() {
+export default function administrators() {
 	return (
 		<React.Fragment>
 			<TableUIProvider>
-				<Webhooks />
+				<Companies />
 			</TableUIProvider>
 		</React.Fragment>
 	);

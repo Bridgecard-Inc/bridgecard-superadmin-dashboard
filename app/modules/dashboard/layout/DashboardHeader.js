@@ -32,22 +32,15 @@ const DashboardHeader = () => {
 		callApiWithToken(fetchAdminDeets);
 	}, [dispatch]);
 
-	const handleLogout = async () => {
-		await dispatch(logout());
-		router.push("/login");
-	};
+	// const handleLogout = async () => {
+	// 	await dispatch(logout());
+	// 	router.push("/login");
+	// };
 
 	return (
 		<div className="dashboard-header">
 			<Toggle />
-			{!admindetails?.is_account_verified && (
-				<button
-					className="request-access-btn"
-					onClick={() => router.push("/dashboard/request-access")}
-				>
-					Request Access
-				</button>
-			)}
+
 			<div
 				className="admin-deets"
 				onClick={() => {
@@ -67,11 +60,6 @@ const DashboardHeader = () => {
 					<SVG src={`../../../media/svg/menu-icons/arrow.svg`} />
 				</div>
 			</div>
-			{logoutVisible && (
-				<div className="logout-div pointer" onClick={handleLogout}>
-					Logout
-				</div>
-			)}
 		</div>
 	);
 };

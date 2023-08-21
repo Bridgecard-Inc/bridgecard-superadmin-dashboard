@@ -102,6 +102,11 @@ ol {
 
 .App {
 	position: relative;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .container {
@@ -114,11 +119,6 @@ ol {
 
 .pointer {
 	cursor: pointer;
-}
-
-img {
-	width: 100%;
-	height: auto;
 }
 
 .section--title {
