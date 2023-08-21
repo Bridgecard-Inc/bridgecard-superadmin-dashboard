@@ -163,7 +163,7 @@ export default function CompaniesTable({ days }) {
 						},
 					}
 				);
-				console.log(res);
+
 				setCompanies(
 					res.data.data.data.length === 0 ? null : res.data.data.data
 				);

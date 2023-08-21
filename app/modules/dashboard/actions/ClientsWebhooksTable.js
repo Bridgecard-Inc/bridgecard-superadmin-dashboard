@@ -38,7 +38,7 @@ export default function ClientsWebhooksTable({ days }) {
 	}, [tableUIContext]);
 
 	const router = useRouter();
-	console.log("router", router);
+
 	const user_id = router?.query?.card_id;
 
 	// const context = useAuthContext();
@@ -180,7 +180,7 @@ export default function ClientsWebhooksTable({ days }) {
 						},
 					}
 				);
-				console.log("res", res);
+
 				setLogs(res.data.data.data.length === 0 ? null : res.data.data.data);
 				setTotalCount(res.data.data.total);
 			} catch (err) {

@@ -34,8 +34,6 @@ export const RequestsModal = () => {
 		},
 	};
 
-	console.log(webHookRow);
-
 	const verifyRequest = async token => {
 		setIsSubmitting(true);
 		try {

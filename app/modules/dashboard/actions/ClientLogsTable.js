@@ -179,7 +179,7 @@ export default function ClientLogsTable({ days }) {
 						},
 					}
 				);
-				console.log("res", res);
+
 				setLogs(res.data.data.data.length === 0 ? null : res.data.data.data);
 				setTotalCount(res.data.data.total);
 			} catch (err) {

@@ -71,10 +71,9 @@ export const BvnModal = () => {
 							Token: `Bearer ${token}`,
 						},
 					});
-					console.log("first", res);
+
 					setBvnDeets(res.data.data);
 				} catch (err) {
-					console.log("err", err);
 					// setError(true);
 					// setErrMessage(err.response?.data?.message);
 				} finally {
@@ -93,11 +92,10 @@ export const BvnModal = () => {
 							Token: `Bearer ${token}`,
 						},
 					});
-					console.log("first", res);
+
 					setMessage(res.data.message);
 					formik.resetForm();
 				} catch (err) {
-					console.log("err", err);
 					// setError(true);
 					// setErrMessage(err.response?.data?.message);
 				} finally {
