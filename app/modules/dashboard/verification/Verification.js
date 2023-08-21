@@ -15,7 +15,6 @@ export default function Verification() {
 			<div className="issued-cards-header">
 				<h1 className="dashboard-title">Manual Verification</h1>
 			</div>
-
 			<div className="verification-div">
 				<p>Manually verify and approve users bvn</p>
 				<button className="webhook-btn" onClick={openModal}>
