@@ -14,6 +14,9 @@ export default function AsyncSelect({
 	reload,
 	isDisabled,
 	customStyles,
+	isMulti,
+	isSearchable,
+	closeMenuOnSelect,
 }) {
 	const [loading, setLoading] = useState(true);
 	const [options, setOptions] = useState([]);
@@ -71,6 +74,9 @@ export default function AsyncSelect({
 				placeholder={loading ? "Please wait..." : placeholder}
 				isLoading={loading}
 				isDisabled={isDisabled}
+				isMulti={isMulti}
+				isSearchable={isSearchable}
+				closeMenuOnSelect={closeMenuOnSelect}
 			/>
 		</>
 	);
