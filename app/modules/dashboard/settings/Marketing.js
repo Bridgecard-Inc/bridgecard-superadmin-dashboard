@@ -11,10 +11,10 @@ import { useAuthContext } from "../../../firebase/AuthContext";
 export default function Marketing() {
 	const [fetching, setFetching] = useState(false);
 	const [administrators, setAdministrators] = useState([]);
-	const [preSelect, setPreSelect] = useState([
-		{ label: "Link", value: "Link" },
-		{ label: "SLink", value: "SLink" },
-	]);
+	// const [preSelect, setPreSelect] = useState([
+	// 	{ label: "Link", value: "Link" },
+	// 	{ label: "SLink", value: "SLink" },
+	// ]);
 	const [success, setSuccess] = useState(false);
 
 	const [side, setSide] = useState(true);
@@ -114,13 +114,13 @@ export default function Marketing() {
 							isDisabled={fetching}
 							closeMenuOnSelect={false}
 							isSearchable={true}
-							value={preSelect}
+							// value={preSelect}
 							handleChange={e => {
 								console.log("object :>> ", e);
 								setAdministrators(modifyList(e));
-								setPreSelect(prev => {
-									[...prev, e];
-								});
+								// setPreSelect(prev => {
+								// 	[...prev, e];
+								// });
 							}}
 						/>
 					</div>
