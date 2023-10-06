@@ -112,7 +112,7 @@ export const ProfileForm = ({ profileEdited }) => {
 				<div className="auth-input-container">
 					<AsyncSelect
 						url={
-							"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/superadmin/administrators"
+							"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/superadmin/administrators"
 						}
 						customStyles={customStyles}
 						placeholder="Administrators"

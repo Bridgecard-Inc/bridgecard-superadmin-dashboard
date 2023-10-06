@@ -12,7 +12,7 @@ import { AuthRoute } from "../app/modules/dashboard/layout/AuthRoute";
 import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
 
 axios.defaults.baseURL =
-	"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/";
+	"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/";
 axios.defaults.timeout = 60000;
 
 function MyApp({ Component, pageProps }) {
