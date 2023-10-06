@@ -11,6 +11,10 @@ import { useAuthContext } from "../../../firebase/AuthContext";
 export default function Marketing() {
 	const [fetching, setFetching] = useState(false);
 	const [administrators, setAdministrators] = useState([]);
+	const [preSelect, setPreSelect] = useState([
+		{ label: "Link", value: "Link" },
+		{ label: "SLink", value: "SLink" },
+	]);
 	const [success, setSuccess] = useState(false);
 
 	const [side, setSide] = useState(true);
@@ -32,7 +36,7 @@ export default function Marketing() {
 		};
 		try {
 			const res = await axios.post(
-				"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/superadmin/run_issuing_companies_analysis",
+				"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/superadmin/run_issuing_companies_analysis",
 				payload
 			);
 			setSuccess(true);
@@ -101,7 +105,7 @@ export default function Marketing() {
 					<div className="auth-input-container">
 						<AsyncSelect
 							url={
-								"https://bridgecard-issuing-admin-auth-service-vbdndeke7q-uc.a.run.app/v1/superadmin/administrators"
+								"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/superadmin/administrators"
 							}
 							customStyles={customStyles}
 							placeholder="Administrators"
@@ -110,8 +114,13 @@ export default function Marketing() {
 							isDisabled={fetching}
 							closeMenuOnSelect={false}
 							isSearchable={true}
+							value={preSelect}
 							handleChange={e => {
+								console.log("object :>> ", e);
 								setAdministrators(modifyList(e));
+								setPreSelect(prev => {
+									[...prev, e];
+								});
 							}}
 						/>
 					</div>
