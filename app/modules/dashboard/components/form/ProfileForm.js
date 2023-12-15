@@ -3,16 +3,24 @@ import React, { useId, useState } from "react";
 import AsyncSelect from "../../../../utils/AsyncSelect";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ThreeDots } from "react-loader-spinner";
+import { ThreeDots, Oval } from "react-loader-spinner";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { callApiWithToken } from "../../../../utils/callApiWithToken";
+import {
+	callApiWithToken,
+	callApiWithPayloadToken,
+} from "../../../../utils/callApiWithToken";
 
 export const ProfileForm = ({ profileEdited }) => {
 	const [edit, setEdit] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setIsError] = useState(false);
 	const { environment } = useSelector(state => state.app);
+	const [balanceDiv, setBalanceDiv] = useState(false);
+	const [fetchingBalance, setFetchingBalance] = useState(false);
+	const [currentBalance, setCurrentBalance] = useState("");
+	const [newBalance, setNewBalance] = useState("");
+
 	const customStyles = {
 		placeholder: () => ({
 			fontSize: "16px",
@@ -62,16 +70,38 @@ export const ProfileForm = ({ profileEdited }) => {
 		description: Yup.string().required(""),
 	});
 
+	const fetchAdminBalance = async (token, id) => {
+		setBalanceDiv(true);
+		setFetchingBalance(true);
+
+		try {
+			const res = await axios.get(
+				`/superadmin/admin-issuing-balance/${id}/USD/production`,
+				{
+					headers: {
+						Token: `Bearer ${token}`,
+					},
+				}
+			);
+			setCurrentBalance(res?.data.data.current_balance / 100);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setFetchingBalance(false);
+		}
+	};
+
 	const formik = useFormik({
 		initialValues,
 		validationSchema: validationSchema,
 		enableReinitialize: true,
 		onSubmit: async (values, actions) => {
 			const topupAdmin = async token => {
+				setSuccess(false);
 				try {
 					actions.setSubmitting(true);
 					const res = await axios.patch(
-						`superadmin/topup-admin-issuing-balance/${values.administrator}/USD/${values.amount}/${environment}`,
+						`superadmin/topup-admin-issuing-balance/${values.administrator}/USD/${values.amount}/production`,
 						{
 							description: values.description,
 						},
@@ -81,8 +111,8 @@ export const ProfileForm = ({ profileEdited }) => {
 							},
 						}
 					);
-					formik.resetForm();
 					setSuccess(true);
+					setNewBalance(res.data.data.updated_balance / 100);
 					handleCancel();
 				} catch (err) {
 					setIsError(true);
@@ -90,7 +120,6 @@ export const ProfileForm = ({ profileEdited }) => {
 					actions.setSubmitting(false);
 					setTimeout(() => {
 						setIsError(false);
-						setSuccess(false);
 					}, 3000);
 				}
 			};
@@ -109,7 +138,7 @@ export const ProfileForm = ({ profileEdited }) => {
 	return (
 		<main>
 			<form>
-				<div className="auth-input-container">
+				<div className="auth-input-container topup-balance">
 					<AsyncSelect
 						url={
 							"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/superadmin/administrators"
@@ -119,9 +148,31 @@ export const ProfileForm = ({ profileEdited }) => {
 						reload={true}
 						isDisabled={!edit}
 						handleChange={e => {
+							setBalanceDiv(false);
+							setSuccess(false);
 							formik.setFieldValue("administrator", e?.value);
+							callApiWithPayloadToken(fetchAdminBalance, e?.value);
 						}}
 					/>
+
+					{balanceDiv && (
+						<div className="toggle-balance">
+							{fetchingBalance ? (
+								<Oval
+									color="#ecc334"
+									height={20}
+									width={20}
+									visible={true}
+									ariaLabel="oval-loading"
+									secondaryColor="#ecc337"
+									strokeWidth={2}
+									strokeWidthSecondary={2}
+								/>
+							) : (
+								<span>${currentBalance}</span>
+							)}{" "}
+						</div>
+					)}
 				</div>
 
 				<div className="auth-input-container">
@@ -152,7 +203,7 @@ export const ProfileForm = ({ profileEdited }) => {
 
 				{success && (
 					<div className="success-message">
-						<p> Admin topped up successfully</p>
+						<p> New Balance = ${newBalance} </p>
 					</div>
 				)}
 			</form>
