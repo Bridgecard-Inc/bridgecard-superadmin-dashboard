@@ -76,7 +76,7 @@ export const Api = ({ adminDetails, profileEdited }) => {
 							values.administrator
 						}/USD/${
 							values.amount
-						}/${environment}?is_wallet_balance_operation=${true}`,
+						}/production?is_wallet_balance_operation=${true}`,
 						{
 							description: values.description,
 						},
@@ -159,7 +159,7 @@ export const Api = ({ adminDetails, profileEdited }) => {
 
 				{success && (
 					<div className="success-message">
-						<p> Admin topped up successfully</p>
+						<p> Admin debited successfully</p>
 					</div>
 				)}
 
