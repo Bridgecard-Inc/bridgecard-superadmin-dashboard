@@ -75,18 +75,18 @@ h4 {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #555;
+	background: white;
 	transition: all 0.3s ease;
 	border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #555;
+	background: white;
 }
 
 :root {
-	scrollbar-color: rgb(210, 210, 210) rgb(46, 54, 69) !important;
+	scrollbar-color: white !important;
 	scrollbar-width: thin !important;
 }
 
