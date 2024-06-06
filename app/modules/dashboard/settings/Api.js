@@ -3,16 +3,22 @@ import React, { useId, useState } from "react";
 import AsyncSelect from "../../../utils/AsyncSelect";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ThreeDots } from "react-loader-spinner";
+import { ThreeDots, Oval } from "react-loader-spinner";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { callApiWithToken } from "../../../utils/callApiWithToken";
+import {
+	callApiWithToken,
+	callApiWithPayloadToken,
+} from "../../../utils/callApiWithToken";
 
 export const Api = ({ adminDetails, profileEdited }) => {
 	const [edit, setEdit] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setIsError] = useState(false);
-	const { environment } = useSelector(state => state.app);
+	const [newBalance, setNewBalance] = useState("");
+	const [balanceDiv, setBalanceDiv] = useState(false);
+	const [fetchingBalance, setFetchingBalance] = useState(false);
+	const [currentBalance, setCurrentBalance] = useState("");
 
 	const customStyles = {
 		placeholder: () => ({
@@ -51,6 +57,27 @@ export const Api = ({ adminDetails, profileEdited }) => {
 		}),
 	};
 
+	const fetchAdminBalance = async (token, id) => {
+		setBalanceDiv(true);
+		setFetchingBalance(true);
+
+		try {
+			const res = await axios.get(
+				`/superadmin/admin-issuing-balance/${id}/USD/production`,
+				{
+					headers: {
+						Token: `Bearer ${token}`,
+					},
+				}
+			);
+			setCurrentBalance(res?.data.data.current_balance / 100);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setFetchingBalance(false);
+		}
+	};
+
 	const initialValues = {
 		administrator: "",
 		amount: "",
@@ -69,6 +96,8 @@ export const Api = ({ adminDetails, profileEdited }) => {
 		enableReinitialize: true,
 		onSubmit: async (values, actions) => {
 			const debitAdmin = async token => {
+				setIsError(false);
+				setSuccess(false);
 				try {
 					actions.setSubmitting(true);
 					const res = await axios.patch(
@@ -78,7 +107,7 @@ export const Api = ({ adminDetails, profileEdited }) => {
 							values.amount
 						}/production?is_wallet_balance_operation=${true}`,
 						{
-							description: values.description,
+							description: `WW: ${values.description}`,
 						},
 						{
 							headers: {
@@ -91,13 +120,9 @@ export const Api = ({ adminDetails, profileEdited }) => {
 					setSuccess(true);
 					handleCancel();
 				} catch (err) {
-					setIsError(true);
+					setIsError(err?.response?.data?.message);
 				} finally {
 					actions.setSubmitting(false);
-					setTimeout(() => {
-						setIsError(false);
-						setSuccess(false);
-					}, 3000);
 				}
 			};
 			callApiWithToken(debitAdmin);
@@ -116,7 +141,7 @@ export const Api = ({ adminDetails, profileEdited }) => {
 		<main>
 			<h1 className="profile-heading">Debit Admin</h1>
 			<form className="profile-form-area">
-				<div className="auth-input-container">
+				<div className="auth-input-container topup-balance">
 					<AsyncSelect
 						url={
 							"https://bridgecard-issuing-app.com/admin-auth-service-v2/v1/superadmin/administrators"
@@ -126,9 +151,31 @@ export const Api = ({ adminDetails, profileEdited }) => {
 						reload={true}
 						isDisabled={!edit}
 						handleChange={e => {
+							setBalanceDiv(false);
+							setSuccess(false);
 							formik.setFieldValue("administrator", e?.value);
+							callApiWithPayloadToken(fetchAdminBalance, e?.value);
 						}}
 					/>
+
+					{balanceDiv && (
+						<div className="toggle-balance">
+							{fetchingBalance ? (
+								<Oval
+									color="#ecc334"
+									height={20}
+									width={20}
+									visible={true}
+									ariaLabel="oval-loading"
+									secondaryColor="#ecc337"
+									strokeWidth={2}
+									strokeWidthSecondary={2}
+								/>
+							) : (
+								<span>${currentBalance}</span>
+							)}{" "}
+						</div>
+					)}
 				</div>
 
 				<div className="auth-input-container">
@@ -153,13 +200,13 @@ export const Api = ({ adminDetails, profileEdited }) => {
 
 				{error && (
 					<div className="error-message">
-						<p> An error occured, please try again</p>
+						<p> {error}</p>
 					</div>
 				)}
 
 				{success && (
 					<div className="success-message">
-						<p> Admin debited successfully</p>
+						<p> New Balance = ${newBalance} </p>
 					</div>
 				)}
 

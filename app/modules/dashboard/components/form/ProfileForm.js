@@ -103,7 +103,7 @@ export const ProfileForm = ({ profileEdited }) => {
 					const res = await axios.patch(
 						`superadmin/topup-admin-issuing-balance/${values.administrator}/USD/${values.amount}/production`,
 						{
-							description: values.description,
+							description: `WF: ${values.description}`,
 						},
 						{
 							headers: {
@@ -119,7 +119,7 @@ export const ProfileForm = ({ profileEdited }) => {
 				} finally {
 					actions.setSubmitting(false);
 					setTimeout(() => {
-						setIsError(false);
+						setIsError(err?.response?.data?.message);
 					}, 3000);
 				}
 			};
@@ -197,7 +197,7 @@ export const ProfileForm = ({ profileEdited }) => {
 
 				{error && (
 					<div className="error-message">
-						<p> An error occured, please try again</p>
+						<p>{error};</p>
 					</div>
 				)}
 
