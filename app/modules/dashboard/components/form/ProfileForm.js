@@ -98,6 +98,7 @@ export const ProfileForm = ({ profileEdited }) => {
 		onSubmit: async (values, actions) => {
 			const topupAdmin = async token => {
 				setSuccess(false);
+				setIsError(false);
 				try {
 					actions.setSubmitting(true);
 					const res = await axios.patch(
@@ -115,12 +116,9 @@ export const ProfileForm = ({ profileEdited }) => {
 					setNewBalance(res.data.data.updated_balance / 100);
 					handleCancel();
 				} catch (err) {
-					setIsError(true);
+					setIsError(err?.response?.data?.message);
 				} finally {
 					actions.setSubmitting(false);
-					setTimeout(() => {
-						setIsError(err?.response?.data?.message);
-					}, 3000);
 				}
 			};
 			callApiWithToken(topupAdmin);
@@ -197,7 +195,7 @@ export const ProfileForm = ({ profileEdited }) => {
 
 				{error && (
 					<div className="error-message">
-						<p>{error};</p>
+						<p>{error}</p>
 					</div>
 				)}
 

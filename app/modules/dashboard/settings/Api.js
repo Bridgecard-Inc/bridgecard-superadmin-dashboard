@@ -116,8 +116,8 @@ export const Api = ({ adminDetails, profileEdited }) => {
 						}
 					);
 
-					formik.resetForm();
 					setSuccess(true);
+					setNewBalance(res.data.data.updated_balance / 100);
 					handleCancel();
 				} catch (err) {
 					setIsError(err?.response?.data?.message);
