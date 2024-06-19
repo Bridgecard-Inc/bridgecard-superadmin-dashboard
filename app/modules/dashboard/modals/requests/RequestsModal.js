@@ -6,6 +6,8 @@ import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import { useAuthContext } from "../../../../firebase/AuthContext";
 import { callApiWithToken } from "../../../../../_helpers/functions/callApi";
+import JSONPretty from "react-json-pretty";
+import "react-json-pretty/themes/monikai.css";
 
 export const RequestsModal = () => {
 	const context = useAuthContext();
@@ -77,156 +79,98 @@ export const RequestsModal = () => {
 					<div className={styles.modalBody}>
 						<div className={styles.modalDeets}>
 							<div className={styles.deets}>
-								<h4>Url</h4>
-								<p>{webHookRow?.webhook_url}</p>
+								<h4>ID</h4>
+								<p>{webHookRow?.id}</p>
 							</div>
 							<div className={styles.deets}>
-								<h4>Transaction Volume</h4>
-								<p>{webHookRow?.transaction_volume_in_local_currency} </p>
-							</div>
-						</div>
-
-						<div className={styles.modalDeets}>
-							<h3>Office Details</h3>
-							<div className={styles.deets}>
-								<h4>Address</h4>
-								<p>{webHookRow?.kyc_information?.office_address?.address}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Country</h4>
-								<p>{webHookRow?.kyc_information?.office_address?.country}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>State</h4>
-								<p>{webHookRow?.kyc_information?.office_address?.state}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Postal code</h4>
+								<h4>
+									{webHookRow?.kyc_information.signature
+										? "Signature"
+										: "Webhook Url"}
+								</h4>
 								<p>
-									{webHookRow?.kyc_information?.office_address?.postal_code}
+									{webHookRow?.kyc_information.signature
+										? webHookRow?.kyc_information.signature
+										: webHookRow?.webhook_url}{" "}
 								</p>
 							</div>
 						</div>
 
 						<div className={styles.modalDeets}>
-							<h3>Registered Details</h3>
-							<div className={styles.deets}>
-								<h4>Address</h4>
-								<p>
-									{webHookRow?.kyc_information?.registered_address?.address}
-								</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Country</h4>
-								<p>
-									{webHookRow?.kyc_information?.registered_address?.country}
-								</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>State</h4>
-								<p>{webHookRow?.kyc_information?.registered_address?.state}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Postal code</h4>
-								<p>
-									{webHookRow?.kyc_information?.registered_address?.postal_code}
-								</p>
-							</div>
+							<h3>Business Identify Info</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.business_identity_info}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
 						</div>
 
 						<div className={styles.modalDeets}>
-							<h3>Director Details</h3>
-							<div className={styles.deets}>
-								<h4>Address</h4>
-								<p>{webHookRow?.kyc_information?.director_address?.address}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Country</h4>
-								<p>{webHookRow?.kyc_information?.director_address?.country}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>State</h4>
-								<p>{webHookRow?.kyc_information?.director_address?.state}</p>
-							</div>
-							<div className={styles.deets}>
-								<h4>Postal code</h4>
-								<p>
-									{webHookRow?.kyc_information?.director_address?.postal_code}
-								</p>
-							</div>
+							<h3>Physical Business Info</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.physical_business_info}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
 						</div>
 
 						<div className={styles.modalDeets}>
-							<h3>Kyc Documents</h3>
-							<div className={styles.kycDeets}>
-								<h4>CAC registration document</h4>
-								{webHookRow?.kyc_information?.cac_regisration_document.includes(
-									".pdf?"
-								) ? (
-									<a
-										href={webHookRow?.kyc_information?.cac_regisration_document}
-										target="_blank"
-										rel="noreferrer"
-									>
-										Cac Registration document
-									</a>
-								) : (
-									<img
-										src={webHookRow?.kyc_information?.cac_regisration_document}
-										alt=""
-									/>
-								)}
-							</div>
+							<h3>Address of Incorporation</h3>
 
-							<div className={styles.kycDeets}>
-								<h4>Utility bill</h4>
-								{webHookRow?.kyc_information?.utility_bill.includes(".pdf?") ? (
-									<a
-										href={webHookRow?.kyc_information?.utility_bill}
-										target="_blank"
-										rel="noreferrer"
-									>
-										Utility bill
-									</a>
-								) : (
-									<img src={webHookRow?.kyc_information?.utility_bill} alt="" />
-								)}
-							</div>
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.address_of_incorporation}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
+						</div>
 
-							<div className={styles.kycDeets}>
-								<h4>Memart</h4>
-								{webHookRow?.kyc_information?.memart.includes(".pdf?") ? (
-									<a
-										href={webHookRow?.kyc_information?.memart}
-										target="_blank"
-										rel="noreferrer"
-									>
-										Memart
-									</a>
-								) : (
-									<img src={webHookRow?.kyc_information?.memart} alt="" />
-								)}
-							</div>
+						<div className={styles.modalDeets}>
+							<h3>Principal Office</h3>
 
-							<div className={styles.kycDeets}>
-								<h4>Director Id</h4>
-								{webHookRow?.kyc_information?.director_id?.id_image.includes(
-									".pdf?"
-								) ? (
-									<a
-										href={webHookRow?.kyc_information?.director_id?.id_image}
-										target="_blank"
-										rel="noreferrer"
-									>
-										Director Id Image
-									</a>
-								) : (
-									<img
-										src={webHookRow?.kyc_information?.director_id?.id_image}
-										alt=""
-									/>
-								)}
-							</div>
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.principal_office}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Principal Owners</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.principal_owners}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Business Leadership</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.business_leadership}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
+						</div>
+
+						<div className={styles.modalDeets}>
+							<h3>Documents Checklist</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.document_check_list}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
 						</div>
 
 						{error && (

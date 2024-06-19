@@ -107,16 +107,15 @@ export default function RequestsTable({ days }) {
 
 	const columns = [
 		{
-			dataField: "transaction_volume_in_local_currency",
-			text: "Transaction volume",
+			dataField: "id",
+			text: "Company's ID",
 			style: {
 				minWidth: "250px",
 			},
 		},
 		{
-			dataField: "webhook_url",
-			text: "Webhook Url",
-			formatter: ResponseColumnFormatter,
+			dataField: "kyc_information.signature",
+			text: "Signature",
 			style: {
 				minWidth: "100px",
 			},
