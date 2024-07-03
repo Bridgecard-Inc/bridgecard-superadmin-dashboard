@@ -36,7 +36,7 @@ export default function RequestsTable({ days }) {
 	}, [tableUIContext]);
 
 	const context = useAuthContext();
-	const { setWebRow, setIsWebhookModalVisible } = context;
+	const { setWebRow, setIsWebhookModalVisible, hasCardChanged } = context;
 
 	const openModal = row => {
 		setIsWebhookModalVisible(true);
@@ -163,7 +163,7 @@ export default function RequestsTable({ days }) {
 		};
 
 		callApiWithToken(fetchData);
-	}, [tableUIProps.queryParams.pageNumber]);
+	}, [tableUIProps.queryParams.pageNumber, hasCardChanged]);
 
 	return (
 		<React.Fragment>

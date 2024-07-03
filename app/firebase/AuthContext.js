@@ -16,6 +16,11 @@ export function AuthProvider({ children }) {
 	const [isWebhookModalVisible, setIsWebhookModalVisible] = useState(false);
 	const [webHookRow, setWebhookRow] = useState({});
 	const [bvnModal, setBvnModal] = useState(false);
+	const [hasCardChanged, setHasCardChanged] = useState(false);
+
+	const cardChanged = () => {
+		setHasCardChanged(prev => !prev);
+	};
 
 	const setWebRow = row => {
 		setWebhookRow(row);
@@ -52,6 +57,8 @@ export function AuthProvider({ children }) {
 		setWebRow,
 		bvnModal,
 		setBvnModal,
+		cardChanged,
+		hasCardChanged,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

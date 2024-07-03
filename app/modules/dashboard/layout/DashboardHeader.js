@@ -32,10 +32,9 @@ const DashboardHeader = () => {
 		callApiWithToken(fetchAdminDeets);
 	}, [dispatch]);
 
-	// const handleLogout = async () => {
-	// 	await dispatch(logout());
-	// 	router.push("/login");
-	// };
+	const handleLogout = async () => {
+		router.push("/");
+	};
 
 	return (
 		<div className="dashboard-header">
@@ -60,6 +59,12 @@ const DashboardHeader = () => {
 					<SVG src={`../../../media/svg/menu-icons/arrow.svg`} />
 				</div>
 			</div>
+
+			{logoutVisible && (
+				<div className="logout-div pointer" onClick={handleLogout}>
+					Logout
+				</div>
+			)}
 		</div>
 	);
 };

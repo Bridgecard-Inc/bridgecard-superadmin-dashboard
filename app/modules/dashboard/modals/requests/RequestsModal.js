@@ -11,8 +11,12 @@ import "react-json-pretty/themes/monikai.css";
 
 export const RequestsModal = () => {
 	const context = useAuthContext();
-	const { isWebhookModalVisible, setIsWebhookModalVisible, webHookRow } =
-		context;
+	const {
+		isWebhookModalVisible,
+		setIsWebhookModalVisible,
+		webHookRow,
+		cardChanged,
+	} = context;
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState(false);
@@ -49,6 +53,7 @@ export const RequestsModal = () => {
 				}
 			);
 			setSuccess(true);
+			cardChanged();
 		} catch (err) {
 			setError(true);
 		} finally {
