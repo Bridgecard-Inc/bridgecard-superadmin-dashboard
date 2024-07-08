@@ -22,6 +22,9 @@ export const RequestsModal = () => {
 	const [error, setError] = useState(false);
 	const closeModal = () => {
 		setIsWebhookModalVisible(false);
+		setSuccess(false);
+		setError(false);
+		cardChanged();
 	};
 	const containerVariants = {
 		hidden: {

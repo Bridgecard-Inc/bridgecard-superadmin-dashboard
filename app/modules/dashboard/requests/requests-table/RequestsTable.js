@@ -140,6 +140,7 @@ export default function RequestsTable({ days }) {
 
 	useEffect(() => {
 		const fetchData = async token => {
+			setWebhooks(null);
 			setLoading(true);
 			try {
 				const res = await axios.get(
