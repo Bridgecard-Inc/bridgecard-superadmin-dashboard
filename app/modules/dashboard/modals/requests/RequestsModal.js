@@ -181,6 +181,69 @@ export const RequestsModal = () => {
 							></JSONPretty>
 						</div>
 
+						{/* <div className={styles.modalDeets}>
+							<h3>Documents Checklist</h3>
+
+							<JSONPretty
+								id="json-pretty"
+								data={webHookRow.kyc_information.document_check_list}
+								style={{ fontSize: "1.5em" }}
+								mainStyle="padding:1em"
+							></JSONPretty>
+						</div> */}
+
+						{Object.values(webHookRow.kyc_information.document_check_list).map(
+							(item, index) => {
+								let titleArr = Object.keys(
+									webHookRow.kyc_information.document_check_list
+								);
+								if (!Array.isArray(item)) {
+									return (
+										<div className={styles.imagesLink} key={index}>
+											<h3>{titleArr[index]}</h3>
+
+											<a href={item} target="_blank" rel="noreferrer">
+												{item}
+											</a>
+										</div>
+									);
+								}
+							}
+						)}
+
+						<div className={styles.imagesLink}>
+							<h3>Passport</h3>
+
+							{webHookRow.kyc_information.document_check_list.passport.map(
+								(passport, index) => {
+									return (
+										<a
+											href={passport}
+											target="_blank"
+											rel="noreferrer"
+											key={index}
+										>
+											{passport}
+										</a>
+									);
+								}
+							)}
+						</div>
+
+						<div className={styles.imagesLink}>
+							<h3>Utility Bill</h3>
+
+							{webHookRow.kyc_information.document_check_list.utility_bill.map(
+								(bill, index) => {
+									return (
+										<a href={bill} target="_blank" rel="noreferrer" key={index}>
+											{bill}
+										</a>
+									);
+								}
+							)}
+						</div>
+
 						{error && (
 							<div className="error-message">
 								<p> An error occured, please try again</p>
